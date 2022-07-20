@@ -1,0 +1,3174 @@
+@startuml
+class Backend.Logic.LogicObjects.Supplier.Order {
+- {static} int nextOrderId
+- int id
+- String supplierName
+- String supplierCn
+- String address
+- Date date
+- String supplierContactPhoneNum
+- LinkedList<ProductOrder> products
+- ProductOrderDAO productOrderDAO
++ Date getDate()
++ int getId()
++ {static} int getNextOrderId()
++ String getAddress()
++ String getSupplierCn()
++ String getSupplierContactPhoneNum()
++ String getSupplierName()
++ LinkedList<ProductOrder> getProducts()
++ {static} void setNextOrderId(int)
++ void insertOrderProducts()
+}
+class PresentationLayer.EmployeTransportFrontend.Objects.PresentationItem {
+- int itemId
+- String manufacture
+- int quantity
++ int getItemId()
++ void setItemId(int)
++ String getManufacture()
++ void setManufacture(String)
++ int getQuantity()
++ void setQuantity(int)
+}
+class Test.UserControllerTest {
++ {static} void setUp()
++ void login()
++ void logout()
+}
+class Backend.Logic.LogicObjects.Jobs.StoreManager {
+}
+class PresentationLayer.JobsCLI.CLIStoreManager {
+}
+class Backend.DataAccess.DAOs.TransportDAOs.DriverDAO {
+- EmployeeDAO employeeDAO
+- BankAccountDAO bankAccountDAO
+- EmploymentConditionsDAO employmentConditionsDAO
++ void insert(Driver)
++ void deleteRow(Driver)
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierOrdersDTO {
+- long orderId
+- String cn
+- String supplierName
+- String address
+- String date
+- String contactPhoneNumber
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getOrderId()
++ String getCn()
++ String getSupplierName()
++ String getAddress()
++ String getDate()
++ String getContactPhoneNumber()
++ Object[] getValues()
+}
+class Test.TransportBoardTest {
+- {static} int transportId
++ {static} void setUp()
++ void upload()
++ void reset()
++ void createTransportFile()
++ void showInprogressTransports()
++ void getAvailableDrivers()
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.JobsDTO {
+- String job
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getJob()
++ Object[] getValues()
+}
+class Backend.Logic.Controllers.Supplier.Product2SuppliersLinker {
+- HashMap<String,LinkedList<String>> productToSuppliers
+- CallbackCheckProductForShortage checkProductForShortage
+- SupplierProductsDAO productsDAO
++ void setCheckProductForShortage(CallbackCheckProductForShortage)
++ LinkedList<String> getSupplierCnOfProduct(String)
++ void addSupplierToProduct(String,String)
++ void removeProductOfSupplier(String,String)
++ void removeProductsSupplierFromSystem(LinkedList<String>,String)
++ void addSupplierToListOfProducts(LinkedList<String>,String)
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierAgreementDAO {
+}
+class Backend.ServiceLayer.ServiceObjects.Supplier.ServiceOrder {
+- int id
+- String supplierName
+- String supplierCn
+- String address
+- Date date
+- String supplierContactPhoneNum
+- LinkedList<ServiceProductOrder> products
++ Date getDate()
++ int getId()
++ String getAddress()
++ String getSupplierCn()
++ String getSupplierContactPhoneNum()
++ String getSupplierName()
++ LinkedList<ServiceProductOrder> getProducts()
++ String toString()
+}
+class Backend.Logic.LogicObjects.Jobs.Driver {
+- TransportBoard transportBoard
+- boolean isBusy
+- License driverLicense
+- int distance
+- LocalDate lastUpdateDistance
+- DriverDAO driverDAO
+- List<InformObserver> usedBy
++ void weightTruck(int)
++ void finishDestinationFile(String)
++ void startTransport(int)
++ void setDriverLicense(String)
++ boolean isBusy()
++ void setBusy(boolean)
++ void removeDriver()
++ void notifyAllObservers()
++ boolean checkIfCanNotify()
++ void addObserver(InformObserver)
++ void removeObserver(InformObserver)
++ License getDriverLicense()
++ String showDetails()
++ int getDistance()
++ void setDistance(int)
++ boolean afterLastWeek()
++ void setTransportBoard(TransportBoard)
++ boolean isFullyInit()
++ LocalDate getLastUpdateDistance()
+}
+class Backend.DataAccess.DAOs.EmployeeDAOS.ShiftDAO {
+- EmployeeDAO employeeDAO
+~ SimpleDateFormat formatter
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.PlacementDTO {
+- String date
+- String shiftTime
+- String branch
+- long employeeId
+- String job
++ {static} Field[] getFields()
++ {static} PK getPK(String,String,String,long)
++ String getDate()
++ void setDate(String)
++ String getJob()
++ String getShiftTime()
++ void setShiftTime(String)
++ long getEmployeeId()
++ void setEmployeeId(long)
++ Object[] getValues()
++ String getBranch()
+}
+class Backend.DataAccess.DAOs.StockDAOs.CategoriesDAO {
++ List<Category> getSubCategories(Category)
+}
+class Backend.DataAccess.DAOs.EmployeeDAOS.EmployeeDAO {
+- BankAccountDAO bankAccountDAO
+- EmploymentConditionsDAO employmentConditionsDAO
+- ConstrainsDAO constrainsDAO
+- PlacementDAO placementDAO
++ void insert(Employee)
++ void deleteRow(Employee)
++ {static} void main(String[])
+}
+class Backend.DataAccess.DAOs.StockDAOs.ProductsDAO {
+- CategoriesDAO categoriesDAO
+}
+interface Backend.Logic.LogicLambdas.IsStoreKeeperInShift {
++ boolean isStoreKeeperInShift(Branch,Date)
+}
+class Backend.DataAccess.DAOs.StockDAOs.ItemsDAO {
+- LocationsDAO locationDAO
+}
+interface Backend.Logic.LogicLambdas.FreeTruck {
++ boolean freeTruck(Truck,Date,Date)
+}
+class Backend.Logic.Controllers.TransportEmployee.EmployeeController {
+- EmployeeDAO employeeDAO
+- JobDAO jobDAO
+- PointDAO pointDAO
+- BankAccountDAO bankAccountDAO
+- EmploymentConditionsDAO employmentConditionsDAO
+- String driver
+- String orderMan
+- String HRManager
+- String transportManager
++ Employee getEmployee(int)
++ boolean isEmployee(int)
++ boolean isAJob(String)
++ void addNewJob(String)
++ void addNewEmployee(String,String,Date,int,String,boolean,int,int,int,double,String,String,DriverController,TransportManagerController,OrderManController,EmployeeController,ShiftController)
++ void removeEmployee(int,DriverController,TransportManagerController,OrderManController)
++ void updateBankNumber(int,int)
++ void updateAccountNumber(int,int)
++ void updateBankBranch(int,int)
++ HashMap<Integer,String> showForEachEmployeeHisJob()
++ LinkedList<String> showEmployees()
++ void updateSalary(int,double)
++ void addSocialBenefits(int,String)
++ void addNewSocialBenefits(int,String)
++ String getEmployeeConstrains(int)
++ void updateIsShiftManager(int,boolean)
++ void updateLastName(int,String)
++ void updateFirstName(int,String)
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Stock.StoreManagerService {
+}
+interface Backend.ServiceLayer.Services.TransportEmployeeServiceAPI {
+~ Response login(int,String,String)
+~ Response logout(int)
+~ Response createTransportRequest(String,String,List<TransportItemService>)
+~ Response<List<String>> getAllPointInfoOrderMan()
+~ Response<List<ServiceTransportFile>> showInProgressTransports()
+~ Response<ServiceTransportFile> getTransportFile(int)
+~ Response<OrderTransportService> getOrderTransport(int)
+~ Response<List<String>> getAllPointInfo()
+~ Response deleteTransportRequest(int)
+~ Response<List<OrderTransportService>> showAllTransportRequests()
+~ Response addTruck(int,String,int,int,LicenseService)
+~ Response deleteTruck(int)
+~ Response<List<ServiceTruck>> showAllAvailableTrucks(Date,Date)
+~ Response createTransportFile(Date,Date,int,int,String,String,String,List<Integer>,List<Date>)
+~ Response createTransportFile(Date,Date,int,String,String,String,List<Integer>,List<Date>)
+~ Response<List<ServiceDriver>> showAvailableDrivers(Date,Date)
+~ Response updateLicense(String)
+~ Response removeItems(String,List<Integer>)
+~ Response changeTruck(int,int)
+~ Response changeDriver(int,int)
+~ Response cancelTransport(int)
+~ Response removeDestination(int,String)
+~ Response<?> addComment(String,int)
+~ Response<ServiceDestinationFile> getDestinationFile(String)
+~ Response<List<ServiceTransportFile>> showOldTransports()
+~ Response<OrderTransportService> getRequestsByPriority()
+~ Response<List<OrderTransportService>> getRequestsByZone(String,String)
+~ Response weightTruck(int)
+~ Response finishDestinationFile(String)
+~ Response<LicenseService[]> showAvailableLicenses()
+~ Response<String> showDetails()
+~ Response insertBranch(String,String,String,String)
+~ Response insertSupplier(String,String,String,String)
+~ Response setStarted(int)
+~ Response<Boolean> isLoggedIn(int,String)
+~ Response<OrderTransportService> getRequestOrderTransport(int)
+~ Response addNewJob(String)
+~ Response addNewEmployee(String,String,Date,int,String,boolean,int,int,int,double,String,String)
+~ Response removeEmployee(int)
+~ Response updateBankNumber(int,int)
+~ Response updateAccountNumber(int,int)
+~ Response updateBankBranch(int,int)
+~ Response<HashMap<Integer,String>> showForEachEmployeeHisJob()
+~ Response<LinkedList<String>> showEmployees()
+~ Response updateSalary(int,double)
+~ Response addSocialBenefits(int,String)
+~ Response addNewSocialBenefits(int,String)
+~ Response updateFirstName(int,String)
+~ Response updateLastName(int,String)
+~ Response changePassword(String,String)
+~ Response updateIsShiftManager(int,boolean)
+~ Response<String> getEmployeeConstrains(int)
+~ Response addScheduling(ShiftTime,Date,String,int,String)
+~ Response removeScheduling(ShiftTime,Date,String,int)
+~ Response updateShiftManager(ShiftTime,Date,String,int)
+~ Response addNewShift(ShiftTime,Date,String,int)
+~ Response setPosition(ShiftTime,Date,String,String,int)
+~ Response addShiftPosition(ShiftTime,Date,String,String,int)
+~ Response removeShiftPosition(ShiftTime,Date,String,String)
+~ Response<String> getNumberOfShiftsStatistics(String)
+~ Response<String> getNumberOfEveningShiftsStatistics(String)
+~ Response<String> getNumberOfMorningShiftsStatistics(String)
+~ Response<String> getHistory()
+~ Response<String> getShiftPlacements(Date,ShiftTime,String)
+~ Response addConstraint(Date,ShiftTime)
+~ Response deleteConstraint(Date,ShiftTime)
+}
+class Backend.DataAccess.DTOs.TransportDTOS.OrderTransportDTO {
+- long orderTransportId
+- String origin
+- String destination
+- String basedOnCreationTime
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getOrderTransportId()
++ String getOrigin()
++ String getDestination()
++ Object[] getValues()
++ String getBasedOnCreationTime()
+}
+class Backend.ServiceLayer.ServiceObjects.Product.SDiscount {
+- double discount
+- Date dateFrom
+- Date dateTo
++ double getDiscount()
++ Date getDateFrom()
++ Date getDateTo()
++ String toString()
+}
+abstract class Backend.DataAccess.DTOs.DTO {
+- T primaryKey
++ {abstract}Object[] getValues()
++ String valuesToString()
++ T getPrimaryKey()
+}
+class Backend.Logic.Controllers.Stock.ProductController {
+- ProductsDAO productsDAO
+- CallbackGetTimeIdealSupplier getTimeIdealSupplier
+- CallbackAddOrderByDemand addOrderByDemand
+- CallbackNotifyCLI notifyCLI
++ List<Product> getProducts()
++ Integer getProductQuantity(String)
++ Integer getProductDemand(String)
++ Product getProduct(String)
++ Product addProduct(String,String,String,double,Category,int)
++ void checkForShortage(String)
++ List<Product> getMissingProducts()
++ List<Product> getProductsByCategories(List<Category>)
++ Product removeProduct(String)
++ Product updateProductDemand(String,int)
++ Product updateProductPrice(String,double)
++ Product updateProductCategory(String,Category)
++ Item reportItemAsFlawed(String,String,Location.StoreOrStorage,int)
++ Purchase addPurchase(String,double,double,double,int,String,Date)
++ List<Product> getDamagedProducts()
+}
+interface Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.SupplierOrdersFunctionality {
+~ SupplierController supplierController
+~ Product2SuppliersLinker product2SuppliersLinker
+~ Result<ServiceOrder> addOrder(String,String,String,LinkedList<Pair<String,Integer>>)
+~ Result<LinkedList<ServiceOrder>> getSupplierOrders(String)
+~ Result<ServiceOrder> addOrder_bestByDemand(String,String,int)
+}
+class Backend.Logic.Controllers.TransportEmployee.TransportManagerController {
+- TransportManager loggedInTransportManager
+- VehicleController vehicleController
+- TransportBoard transportBoard
+- TransportManagerDAO managerDAO
++ List<TransportManager> getList()
++ void register(int,String,String,Date,boolean,BankAccount,EmploymentConditions)
++ void removeTransportManager(int)
++ void login(int,String)
++ void addTruck(int,String,int,int,License)
++ void deleteTruck(int)
++ void insertBranch(String,String,String,Zone)
++ void insertSupplier(String,String,String,Zone)
++ Truck getFreeTruck()
++ Truck getTruck(int)
++ List<Truck> showAllAvailableTrucks(Date,Date)
++ boolean isLoggedIn()
++ TransportManager getTransportManager()
++ List<OrderTransport> showAllTransportRequests()
++ List<Driver> showAllAvailableDrivers(Date,Date)
++ void createTransportFile(Date,Date,int,int,String,String,String,List<Integer>,List<Date>)
++ void createTransportFile(Date,Date,int,String,String,String,List<Integer>,List<Date>)
++ void removeItems(String,List<Integer>)
++ void deleteDestination(int,String)
++ void changeTruck(int,int)
++ void changeDriver(int,int)
++ void addComment(String,int)
++ void cancelTransport(int)
++ List<String> getAllPointInfo()
++ DestinationFile getDestinationFile(String)
++ List<TransportFile> showOldTransports()
++ List<TransportFile> showInProgressTransports()
++ OrderTransport getRequestsByPriority()
++ List<OrderTransport> getRequestsByZone(String,String)
++ TransportFile getTransportFile(int)
++ OrderTransport getOrderTransport(int)
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ void changePassword(String,String)
+}
+class Backend.Logic.LogicObjects.Jobs.Job {
+- String jobName
++ String getJobName()
+}
+class Backend.DataAccess.DTOs.StockDTOS.ProductsDTO {
+- long id
+- String name
+- String manufacturer
+- double price
+- long category_ID
+- long demand_per_day
+- long item_id_runner
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getId()
++ String getName()
++ String getManufacturer()
++ double getPrice()
++ long getCategoryId()
++ long getDemandPerDay()
++ long getItemIdRunner()
++ Object[] getValues()
+}
+class Backend.DataAccess.DTOs.StockDTOS.LocationsDTO {
+- long item_ID
+- long product_ID
+- String branch
+- String place
+- long shelf
++ {static} Field[] getFields()
++ {static} PK getPK(long,long)
++ long getItemId()
++ long getProductId()
++ String getBranch()
++ String getPlace()
++ long getShelf()
++ Object[] getValues()
+}
+class Backend.ServiceLayer.ServiceObjects.Transport.ServiceEmployee {
+- int employeeId
+- String employeeName
+- String employeeLastName
+- String password
++ String toString()
++ int getEmployeeId()
++ String getEmployeeName()
++ String getEmployeeLastName()
++ String getPassword()
+}
+class Backend.Logic.Controllers.TransportEmployee.ShiftController {
+- ShiftDAO shiftDAO
+- EmployeeDAO employeeDAO
+- PlacementDAO placementDAO
+- ConstrainsDAO constrainsDAO
+- AssignmentDAO assignmentDAO
+- String pattern
+- SimpleDateFormat simpleDateFormat
++ void addScheduling(ShiftTime,Date,String,Employee,String)
++ void removeScheduling(ShiftTime,Date,String,Employee)
++ void updateShiftManager(ShiftTime,Date,String,Employee)
++ void addNewShift(ShiftTime,Date,String,Employee)
++ void addShiftPosition(ShiftTime,Date,String,String,int)
++ void removeShiftPosition(ShiftTime,Date,String,String)
++ void setPosition(ShiftTime,Date,String,String,int)
++ Shift getShift(Date,ShiftTime,String)
++ String getHistory()
++ IsStoreKeeperInShift isStoreKeeperInShiftLambda()
++ boolean isStoreKeeperInShiftShiftController(Branch,Date,String)
++ void updateHistory()
++ String getNumberOfShiftsStatistics(String)
++ String getNumberOfMorningShiftsStatistics(String)
++ String getNumberOfEveningShiftsStatistics(String)
++ String getStrDate(Date)
++ String getStrDate2(Date)
++ DriversInShift getDriversInShift()
++ LinkedList<Driver> getScheduledDrivers(Date)
++ LinkedList<Driver> getAvailableDrivers(Date)
++ String convertBusinessDateToDB(String)
++ boolean isAssignedNextWeek(Employee)
++ String getShiftPlacements(Date,ShiftTime,String)
+}
+class Backend.Logic.Controllers.TransportEmployee.ShiftController.Task {
++ void run()
+}
+class Backend.Logic.Starters.Starter {
+- {static} Starter instance
+- TransportMap transportMap
+- VehicleController vehicleController
+- TransportBoard transportBoard
+- OrderTransportController orderTransportController
+- UserController userController
+- TransportManagerController transportManagerController
+- OrderManController orderManController
+- DriverController driverController
+- HRController hrController
+- BasicEmployeeController basicEmployeeController
+- SupplierController supplierController
+- Product2SuppliersLinker product2SuppliersLinker
+- CategoryController categoryController
+- DiscountHolder discountHolder
+- ProductController productController
+- ReportBuilder reportBuilder
+- StockKeeperController stockKeeperController
+- StoreManagerController storeManagerController
+- SupplierManagerController supplierManagerController
+- HRService hrService
+- UserService userService
+- TransportManagerService transportManagerService
+- OrderService orderService
+- DriverService driverService
+- StockKeeperService stockKeeperService
+- StoreManagerService storeManagerService
+- SupplierManagerService supplierManagerService
+- IsStoreKeeperInShift isStoreKeeperInShift
+- CallbackNotifyCLI notifyCLI
+- CallbackGetDemandOfProduct getDemandOfProduct
+- CallbackGetProductQuantity getProductQuantity
+- CallbackCheckProductForShortage checkProductForShortage
+- CallbackGetTimeIdealSupplier getTimeIdealSupplier
+- CallbackAddOrderByDemand addOrderByDemand
++ {static} Starter getInstance()
++ TransportManagerService getManagerService()
++ OrderService getOrderService()
++ DriverService getDriverService()
++ HRService getHrService()
++ UserService getUserService()
++ StockKeeperService getStockKeeperService()
++ StoreManagerService getStoreManagerService()
++ SupplierManagerService getSupplierManagerService()
++ HRController getHRController()
++ BasicEmployeeController getBasicEmployeeController()
++ StockKeeperController getStockKeeperController()
++ StoreManagerController getStoreManagerController()
++ SupplierManagerController getSupplierManagerController()
++ VehicleController getVehicleController()
++ DriverController getDriverController()
++ OrderTransportController getOrderTransportController()
++ OrderManController getOrderManController()
++ TransportBoard getTransportBoard()
++ TransportManagerController getTransportManagerController()
++ UserController getUserController()
++ Product2SuppliersLinker getProduct2SuppliersLinker()
++ SupplierController getSupplierController()
++ CategoryController getCategoryController()
++ DiscountHolder getDiscountHolder()
++ ProductController getProductController()
++ ReportBuilder getReportBuilder()
++ CallbackCheckProductForShortage getCheckProductForShortage()
+}
+class Backend.ServiceLayer.ServiceObjects.Supplier.ServiceBillOfQuantities {
+- LinkedList<Pair<Integer,Double>> ranges
++ LinkedList<Pair<Integer,Double>> getRanges()
++ String toString()
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Employees.HRService {
+- HRController hrController
++ Response addNewJob(String)
++ Response addNewEmployee(String,String,Date,int,String,boolean,int,int,int,double,String,String)
++ Response updateBankBranch(int,int)
++ Response updateAccountNumber(int,int)
++ Response updateBankNumber(int,int)
++ Response removeEmployee(int)
++ Response addScheduling(ShiftTime,Date,String,int,String)
++ Response removeScheduling(ShiftTime,Date,String,int)
++ Response updateShiftManager(ShiftTime,Date,String,int)
++ Response addNewShift(ShiftTime,Date,String,int)
++ Response setPosition(ShiftTime,Date,String,String,int)
++ Response addShiftPosition(ShiftTime,Date,String,String,int)
++ Response removeShiftPosition(ShiftTime,Date,String,String)
++ Response<String> getNumberOfShiftsStatistics(String)
++ Response<String> getNumberOfEveningShiftsStatistics(String)
++ Response<String> getNumberOfMorningShiftsStatistics(String)
++ Response<LinkedList<String>> showEmployees()
++ Response updateSalary(int,double)
++ Response<HashMap<Integer,String>> showForEachEmployeeHisJob()
++ Response addSocialBenefits(int,String)
++ Response addNewSocialBenefits(int,String)
++ Response updateFirstName(int,String)
++ Response updateLastName(int,String)
++ Response updateIsShiftManager(int,boolean)
++ Response<String> getHistory()
++ Response<String> getShiftPlacements(Date,ShiftTime,String)
++ Response<String> getEmployeeConstrains(int)
+}
+class Backend.Logic.LogicObjects.Supplier.BillOfQuantities {
+- LinkedList<Pair<Integer,Double>> ranges
+- String cn
+- String productName
++ void addRange(int,double)
++ LinkedList<Pair<Integer,Double>> getRanges()
++ void removeRange(int)
++ double getDiscountWithGivenRange(int)
++ void editDiscountForRange(int,double)
++ String getCn()
++ String getProductName()
++ void setCn(String)
+}
+class Backend.ServiceLayer.ServiceObjects.Supplier.ServiceSupplierCard {
+- String cn
+- String supplierName
+- String backAccountNum
+- String paymentMethod
+- String paymentFrequency
+- LinkedList<ServiceContact> contacts
++ String getCn()
++ String getBackAccountNum()
++ String getPaymentFrequency()
++ String getPaymentMethod()
++ LinkedList<ServiceContact> getContacts()
++ String getSupplierName()
++ String toString()
+}
+interface Backend.Logic.LogicLambdas.DriversInShift {
++ List<Driver> inShift(Date)
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.EmployeeDTO {
+- long id
+- String firstName
+- String lastName
+- String password
+- String startingDate
+- long isShiftManager
+- String job
+- String branch
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ String getFirstName()
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ long getId()
++ String getJob()
++ String getPassword()
++ void setPassword(String)
++ String getStartingDate()
++ long getIsShiftManager()
++ String getBranch()
++ String toString()
++ Object[] getValues()
+}
+class Backend.DataAccess.Exceptions.DbException {
+}
+class Backend.Logic.LogicObjects.Jobs.Employee {
+- int employeeId
+- String employeeName
+- String employeeLastName
+- String password
+- Date startingDate
+- Job job
+- boolean isShiftManager
+- BankAccount bankAccount
+- EmploymentConditions employmentConditions
+- String GENERAL_PASS
++ int getEmployeeId()
++ String getEmployeeName()
++ String getEmployeeLastName()
++ Date getStartingDate()
++ boolean isShiftManager()
++ String getGENERAL_PASS()
++ void changePassword(String,String)
++ String getPassword()
++ String showDetails()
++ Job getJob()
++ boolean getIsShiftManager()
++ EmploymentConditions getEmploymentConditions()
++ BankAccount getBankAccount()
++ String toString()
++ void addSocialBenefits(String)
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ String getStrDate(Date)
++ void setEmployeeName(String)
++ void setEmployeeLastName(String)
++ void setNewSocialBenefits(String)
++ void updateIsShiftManager(boolean)
++ String getEmployeeConstrains()
++ boolean isAvailable(String,ShiftTime)
++ String getBranchAddress()
+}
+class PresentationLayer.EmployeTransportFrontend.Program {
+- {static} String defaultPassword
++ {static} void main(String[])
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierProductsDTO {
+- String cn
+- String productName
+- double price
+- String catalogNum
++ {static} Field[] getFields()
++ {static} PK getPK(String,String)
++ String getCn()
++ String getProductName()
++ double getPrice()
++ String getCatalogNum()
++ Object[] getValues()
+}
+class Backend.DataAccess.DAOs.EmployeeDAOS.BankAccountDAO {
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Stock.StockKeeperService {
+}
+interface Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.StockFunctionality {
+~ ProductController productController
+~ CategoryController categoryController
+~ Result<List<SProduct>> getAllProducts()
+~ Result<List<SProduct>> getAllMissingProducts()
+~ Result<SProduct> getProduct(String)
+~ Result<SProduct> addProduct(String,String,String,double,List<String>,int)
+~ Result<Void> checkForShortage(String)
+~ Result<SProduct> removeProduct(String)
+~ Result<SProduct> updateProductPrice(String,double)
+~ Result<SProduct> updateProductDemand(String,int)
+~ Result<SProduct> updateProductCategory(String,List<String>)
+~ Result<SDiscount> addProductDiscount(String,double,Date,Date)
+~ Result<SPurchase> addProductPurchase(String,double,double,double,int,String,Date)
+~ Result<SItem> reportItemAsFlawed(String,String,String,int)
+~ Result<SItem> addItem(String,String,String,int,Date)
+~ Result<SItem> removeItem(String,String,String,int)
+~ Result<Integer> getProductDemand(String)
+~ Result<Integer> getProductQuantity(String)
+~ Result<List<SCategory>> getMainCategories()
+~ Result<List<SCategory>> getSubCategories(List<String>)
+~ Result<SCategory> getCategory(List<String>)
+~ Result<SCategory> addCategory(String,List<String>)
+~ Result<SDiscount> addCategoryDiscount(List<String>,double,Date,Date)
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.BankAccountDTO {
+- long employeeId
+- long bankNumber
+- long bankBranch
+- long accountNumber
++ Object[] getValues()
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getEmployeeId()
++ void setEmployeeId(long)
++ long getBankNumber()
++ void setBankNumber(long)
++ long getBankBranch()
++ void setBankBranch(long)
++ long getAccountNumber()
++ void setAccountNumber(long)
+}
+class Backend.Logic.LogicObjects.Product.Location {
+- String product_number
+- int item_id
+- String branch
+- StoreOrStorage place
+- int shelf
+- LocationsDAO locationsDAO
++ String getProduct_number()
++ int getItem_id()
++ String getBranch()
++ void setBranch(String)
++ StoreOrStorage getPlace()
++ void setPlace(StoreOrStorage)
++ int getShelf()
++ void setShelf(int)
++ boolean equals(Location)
+}
+enum Backend.Logic.LogicObjects.Product.StoreOrStorage {
++  STORE
++  STORAGE
+}
+class Backend.Logic.Points.Supplier {
+}
+class Backend.DataAccess.DTOs.TransportDTOS.TransportFileDTO {
+- long id
+- long started
+- String startingDate
+- String endDate
+- long driverId
+- long truckId
+- String source
+- long startingWeight
+- String fromZone
+- String toZone
+- String comment
+- long isFinish
++ Object[] getValues()
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getId()
++ String getStartingDate()
++ long getStarted()
++ String getEndDate()
++ long getDriverId()
++ long getTruckId()
++ String getSource()
++ long getStartingWeight()
++ String getFromZone()
++ String getToZone()
++ String getComment()
++ long getIsFinish()
+}
+class Backend.DataAccess.DTOs.PrimaryKeys.PK {
+- Field[] fields
+- Object[] objects
++ Object[] getValue()
++ boolean equals(Object)
++ int hashCode()
++ String primaryKeyToString()
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierDTO {
+- String cn
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getCn()
++ Object[] getValues()
+}
+class Test.VehicleControllerTest {
++ {static} void setUp()
++ void addTruck()
++ void removeTruck()
+}
+class Test.DriverDTOControllerTest {
+- {static} Starter starter
+- {static} int transportId
++ {static} void setUp()
++ void upload()
++ void reset()
++ void updateLicense()
++ void weightTruck()
++ void finishDestinationFile()
+}
+class Backend.ServiceLayer.ServiceObjects.Transport.TransportItemService {
+- int itemId
+- String manufacture
+- int quantity
++ String toString()
++ int getItemId()
++ String getManufacture()
++ int getQuantity()
+}
+class Test.SupplierTest {
+- StockSupplyService stockSupplyService
++ void setup()
++ void addSupplier()
++ void removeSupplier()
++ void addSupplierContact()
++ void removeSupplierContact()
++ void addSupplierProduct()
++ void removeSupplierProduct()
++ void addSupplierProductBillOfQuantitiesRange()
++ void getSupplierProductPriceForQuantity()
++ void removeSupplierProductBillOfQuantitiesRange()
++ void addOrder()
++ {static} void tearDown()
+}
+class Backend.DataAccess.DATA_BASE.DataBaseConnection {
+- {static} String path
++ {static} Connection connect()
++ {static} void setConnection(String)
+}
+class Backend.ServiceLayer.ServiceObjects.Report.SDamagedProductInfo {
+- List<SLocation> locations
+- int quantity
+- int expiredQuantity
+- int flawedQuantity
++ List<SLocation> getLocations()
++ int getQuantity()
++ int getExpiredQuantity()
++ int getFlawedQuantity()
++ String toString()
++ String flawedToString()
++ String expiredToString()
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierDAO {
+}
+interface Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.AddNRemoveSupplier {
+~ SupplierController supplierController
+~ Product2SuppliersLinker product2SupplierLinker
+~ Result<Void> addSupplier(String,String,String,String,String,String,String,String)
+~ Result<Void> removeSupplier(String)
+}
+class Backend.Logic.LogicObjects.Jobs.SupplierManager {
+}
+interface Backend.ServiceLayer.Facades.Callbacks.CallbackNotifyCLI {
++ void notifyCLI(String)
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.BasicEmployeeDTO {
+- long employeeId
+- String job
++ long getEmployeeId()
++ void setEmployeeId(long)
++ String getJob()
++ void setJob(String)
+}
+class Backend.Logic.Controllers.TransportEmployee.StockKeeperController {
+- StockKeeper loggedInStockKeeper
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ void changePassword(String,String)
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierCardDAO {
+}
+class Backend.ServiceLayer.ServiceObjects.Transport.OrderTransportService {
+- List<TransportItemService> transportItemList
+- int orderTransportId
++ String toString()
++ String toStringWithoutItems()
++ List<TransportItemService> getTransportItemList()
++ void setTransportItemList(List<TransportItemService>)
++ int getOrderTransportId()
++ void setOrderTransportId(int)
+}
+class Backend.Logic.Controllers.TransportEmployee.UserController {
+- OrderManController orderManController
+- TransportManagerController transportManagerController
+- DriverController driverController
+- HRController hrController
+- BasicEmployeeController basicEmployeeController
+- StockKeeperController stockKeeperController
+- StoreManagerController storeManagerController
+- SupplierManagerController supplierManagerController
+- String manager
+- String orderMan
+- String driver
+- String hrManager
+- String basicEmployee
+- String storeManager
+- String stockKeeper
+- String supplierManager
+- boolean isLoggedIn
++ boolean isLoggedIn(int,String)
++ void login(int,String,String)
++ void logout(int)
++ void changePassword(String,String)
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ String getManagerString()
++ String getOrderManString()
++ String getDriverString()
++ String getHrManagerString()
++ String getBasicEmployeeString()
+}
+class Backend.DataAccess.DTOs.TransportDTOS.DestinationFileDTO {
+- String id
+- String source
+- String destination
+- long isDone
+- String creationBased
+- String arrivalDate
+- long transportId
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getId()
++ String getArrivalDate()
++ String getSource()
++ String getDestination()
++ long getIsDone()
++ Object[] getValues()
++ String getCreationBased()
++ long getTransportId()
+}
+class Backend.Logic.Utilities.Pair {
+- F first
+- S second
++ void setFirst(F)
++ void setSecond(S)
++ F getFirst()
++ S getSecond()
+}
+class Backend.Logic.LogicObjects.Supplier.ConsistentSupplierSchedule {
+- LinkedList<Integer> daysList
+- String cn
++ String getCn()
++ LinkedList<Integer> getDaysList()
++ boolean isScheduleConsistent()
++ void defineSupplyingDays(LinkedList<Integer>)
++ void addSupplyingDay(int)
++ void removeSupplyingDay(int)
++ boolean isShippingInDay(int)
++ int getTimeForTillNextNextShipment()
++ boolean isSupplierWithEmptySchedule()
++ int getDaysTillNextShipmentFromDate(Date)
++ int getDaysTillNextShipment()
+}
+class Backend.DataAccess.DAOs.StockDAOs.PurchasesDAO {
+}
+class Backend.Logic.LogicObjects.Jobs.OrderMan {
+}
+class Backend.Logic.LogicObjects.Supplier.ProductOrder {
+- int id
+- String catalogNum
+- String name
+- int quantity
+- double totalPriceWithoutDiscount
+- double discount
+- double finalPrice
++ int getId()
++ void setId(int)
++ String getCatalogNum()
++ String getName()
++ double getFinalPrice()
++ double getDiscount()
++ double getTotalPriceWithoutDiscount()
++ int getQuantity()
+}
+class Backend.Logic.LogicObjects.Jobs.HrManager {
+- EmployeeController employeeController
+- ShiftController shiftController
++ void addNewJob(String)
++ void addNewEmployee(String,String,Date,int,String,boolean,int,int,int,double,String,String,DriverController,TransportManagerController,OrderManController,ShiftController,EmployeeController)
++ void removeEmployee(int,DriverController,TransportManagerController,OrderManController)
++ void updateBankNumber(int,int)
++ void updateAccountNumber(int,int)
++ void updateBankBranch(int,int)
++ HashMap<Integer,String> showForEachEmployeeHisJob()
++ LinkedList<String> showEmployees()
++ void updateSalary(int,double)
++ void addSocialBenefits(int,String)
++ void addNewSocialBenefits(int,String)
++ void updateFirstName(int,String)
++ void updateLastName(int,String)
++ void updateIsShiftManager(int,boolean)
++ void addScheduling(ShiftTime,Date,String,Employee,String)
++ void removeScheduling(ShiftTime,Date,String,Employee)
++ void updateShiftManager(ShiftTime,Date,String,Employee)
++ void addNewShift(ShiftTime,Date,String,Employee)
++ void addShiftPosition(ShiftTime,Date,String,String,int)
++ void removeShiftPosition(ShiftTime,Date,String,String)
++ void setPosition(ShiftTime,Date,String,String,int)
++ String getHistory()
++ String getNumberOfShiftsStatistics(String)
++ String getNumberOfMorningShiftsStatistics(String)
++ String getNumberOfEveningShiftsStatistics(String)
++ String getEmployeeConstrains(int)
++ Employee getEmployee(int)
++ EmployeeController getEmployeeController()
++ ShiftController getShiftController()
++ boolean isJobExists(String)
++ String getShiftPlacements(Date,ShiftTime,String)
+}
+class Backend.DataAccess.IdentityMap.IM {
+- {static} IM instance
+- HashMap<String,Object> counter
++ {static} IM getInstance()
++ HashMap<PK,T> getIdentityMap(Class<T>)
+}
+class Backend.DataAccess.DTOs.TransportDTOS.TransportItemDTO {
+- long id
+- String manufacture
+- long quantity
+- long orderTransportId
+- String destinationFileId
++ {static} Field[] getFields()
++ {static} PK getPK(long,long,String)
++ long getId()
++ String getManufacture()
++ long getQuantity()
++ String getDestinationFileId()
++ Object[] getValues()
++ long getOrderTransportId()
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierNotConsistentScheduleDTO {
+- String cn
+- long daysTillNextShipment
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getCn()
++ long getDaysTillNextShipment()
++ Object[] getValues()
+}
+class Backend.ServiceLayer.ServiceObjects.Transport.ServiceTruck {
+- int truckId
+- String model
+- int currentWeight
+- int maxWeight
+- LicenseService license
++ String toString()
++ int getTruckId()
++ String getModel()
++ int getCurrentWeight()
++ int getMaxWeight()
++ LicenseService getLicense()
+}
+class Backend.Logic.LogicObjects.Report.Category {
+- int id
+- String name
+- Category parent
+- DiscountHolder discounts
+- int discountID
+- CategoriesDAO categoriesDAO
++ int getId()
++ void setParent(Category)
++ DiscountHolder getDiscounts()
++ String getName()
++ Category getParent()
++ List<Category> getSubCategories()
++ List<Category> getSubCategories(List<String>)
++ Category getSubCategory(String)
++ Discount addDiscount(double,Date,Date)
++ Boolean isExist(List<String>)
++ Category addCategory(int,String)
++ void getCategoryPath(List<Category>)
++ List<Category> getCategoryPath()
++ Discount getDiscount()
++ Category getCategory(List<String>)
++ boolean equals(Object)
+}
+class Backend.Logic.LogicObjects.Product.SortByDatePurchase {
++ int compare(SPurchase,SPurchase)
+}
+class Backend.ServiceLayer.ServiceObjects.Supplier.ServiceContact {
+- String name
+- String phone
+- String email
++ String getName()
++ String getEmail()
++ String getPhone()
++ String toString()
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Employees.BasicEmployeeService {
+- BasicEmployeeController basicEmployeeController
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.EmploymentConditionsDTO {
+- double salary
+- long employeeId
+- String socialBenefits
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ double getSalary()
++ long getEmployeeId()
++ String getSocialBenefits()
++ Object[] getValues()
+}
+class Backend.Logic.LogicObjects.Transport.DestinationFile {
+- String id
+- Point destination
+- Point source
+- boolean isDone
+- Date arrivalDate
+- Date basedOnCreationTime
+- int transportId
+- DestinationFileDAO destinationFileDAO
+- TransportItemDAO transportItemDAO
+- List<TransportItem> transportItems
+- AddExist addExistLambda
++ List<TransportItem> getTransportItems()
++ void setOwner()
++ OrderTransport getOrderTransport(List<Pair<Integer,Integer>>)
++ void delete()
++ void deleteT()
++ void removeItems(List<Pair<Integer,Integer>>)
++ String getId()
++ Point getDestination()
++ Point getSource()
++ boolean isDone()
++ void setDone(boolean)
++ Date getArrivalDate()
++ Date getBasedOnCreationTime()
++ int getTransportId()
+}
+interface Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.SupplierCardFunctionality {
+~ SupplierController supplierController
+~ Product2SuppliersLinker product2SuppliersLinker
+~ Result<Void> addSupplierContact(String,String,String,String)
+~ Result<Void> removeSupplierContact(String,String)
+~ Result<Void> editSupplierContactName(String,String,String)
+~ Result<Void> editSupplierContactEmail(String,String,String)
+~ Result<Void> editSupplierContactNumber(String,String,String)
+~ Result<Void> editSupplierCn(String,String)
+~ Result<Void> editSupplierBankAccountNum(String,String)
+~ Result<Void> editSupplierPaymentMethod(String,String)
+~ Result<Void> editSupplierPaymentFrequency(String,String)
+~ Result<Void> editSupplierName(String,String)
+~ Result<String> getSupplierName(String)
+~ Result<String> getSupplierBankAccountNumber(String)
+~ Result<String> getSupplierPaymentFrequency(String)
+~ Result<String> getSupplierPaymentMethod(String)
+~ Result<ServiceContact> getSupplierContact(String,String)
+~ Result<LinkedList<ServiceContact>> getSupplierContactList(String)
+~ Result<ServiceSupplierCard> getAllSupplierInfo(String)
+}
+interface Callbacks.ProductShortageCallback {
++ void call(String)
+}
+class Backend.Logic.LogicObjects.Jobs.TransportManager {
+- TransportBoard transportBoard
+- VehicleController vehicleController
++ void initialize(TransportBoard,VehicleController)
++ void addTruck(int,String,int,int,License)
++ void createTransportFile(Date,Date,int,int,String,Zone,Zone,List<Integer>,List<Date>)
++ void createTransportFile(Date,Date,int,String,Zone,Zone,List<Integer>,List<Date>)
++ void removeTruck(int)
++ Truck getFreeTruck()
++ Truck getTruck(int)
++ List<Truck> showAllAvailableTrucks(Date,Date)
++ List<OrderTransport> showAllTransportRequests()
++ List<Driver> showAllAvailableDrivers(Date,Date)
++ void insertBranch(String,String,String,Zone)
++ void insertSupplier(String,String,String,Zone)
++ List<String> getAllPointInfo()
++ void removeItems(String,List<Pair<Integer,Integer>>)
++ void deleteDestination(int,String)
++ void changeTruck(int,int)
++ void changeDriver(int,int)
++ void cancelTransport(int)
++ void addComment(String,int)
++ TransportFile getTransportFile(int)
++ OrderTransport getOrderTransport(int)
++ DestinationFile getDestinationFile(String)
++ List<TransportFile> showOldTransports()
++ OrderTransport getRequestsByPriority()
++ List<OrderTransport> getRequestsByZone(Zone,Zone)
++ List<TransportFile> showInprogressTransports()
+}
+class Backend.Logic.LogicObjects.Supplier.EmptySchedule {
+- String cn
++ boolean isScheduleConsistent()
++ LinkedList<Integer> getDaysList()
++ int getDaysTillNextShipment()
++ boolean isShippingInDay(int)
++ int getTimeForTillNextNextShipment()
++ boolean isSupplierWithEmptySchedule()
++ String getCn()
+}
+class Backend.Logic.LogicObjects.Employee.Assingment {
+- Date date
+- ShiftTime shiftTime
+- String branch
+- String job
+- long capacity
+- long quantity
++ Date getDate()
++ void setDate(Date)
++ ShiftTime getShiftTime()
++ void setShiftTime(ShiftTime)
++ String getBranch()
++ void setBranch(String)
++ String getJob()
++ void setJob(String)
++ long getQuantity()
++ void setQuantity(long)
++ long getCapacity()
++ String getStrDate()
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierConsistentScheduleDAO {
++ ConsistentSupplierSchedule getFullConsistentSupplierSchedule(String)
++ void insertConsistentSchedule(ConsistentSupplierSchedule)
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierCardDTO {
+- String cn
+- String supplierName
+- String bankAccountNum
+- String paymentMethod
+- String paymentFrequency
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getCn()
++ String getSupplierName()
++ String getBankAccountNum()
++ String getPaymentMethod()
++ String getPaymentFrequency()
++ Object[] getValues()
+}
+class Backend.Logic.Controllers.TransportEmployee.StoreManagerController {
+- StoreManager loggedInStoreManager
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ void changePassword(String,String)
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.ShiftDTO {
+- String date
+- String shiftTime
+- String branch
+- long shiftManager
++ {static} Field[] getFields()
++ {static} PK getPK(String,String,String)
++ String getDate()
++ void setDate(String)
++ String getShiftTime()
++ void setShiftTime(String)
++ String getBranch()
++ void setBranch(String)
++ Object[] getValues()
++ long getShiftManagerId()
+}
+abstract class Backend.DataAccess.DAOs.DAO {
+- Class<T2> dtoClass
+- SimpleDateFormat simpleDateFormat
+- SimpleDateFormat simpleDateFormatNonHour
++ List<T3> getRowsFromDB(String)
++ List<T3> getRowsFromDB()
++ List<List<Object>> selectCols(List<Field>)
++ T3 getRow(T1)
++ List<T2> selectAllUnderCondition(String)
++ List<T3> selectAllUnderConditionToBusiness(String)
++ List<T2> selectAll()
++ List<T3> selectAllRowsToBusiness()
++ void insert(T3)
++ void deleteRow(T3)
++ void deleteAllRecords()
++ void deleteRows(String)
++ void update(T3)
++ String convertDBdateToBusiness(String)
++ String convertBusinessDateToDB(String)
++ SimpleDateFormat getSimpleDateFormat()
++ SimpleDateFormat getSimpleDateFormatNonHour()
+}
+class Backend.Logic.LogicObjects.Employee.Constraint {
+- Date date
+- ShiftTime shiftTime
+- int employeeId
++ Date getDate()
++ void setDate(Date)
++ ShiftTime getShiftTime()
++ void setShiftTime(ShiftTime)
++ int getEmployeeId()
+}
+class Backend.ServiceLayer.ServiceObjects.Transport.ServiceTransportFile {
+- List<ServiceDestinationFile> destinationFiles
+- String comment
+- int fileId
+- boolean started
+- Date startDate
+- ServiceDriver driver
+- ServiceTruck truck
+- Point source
+- int startingWeight
+- Zone from
+- Zone to
++ String toString()
++ String toStringWithoutItems()
++ String getComment()
++ List<ServiceDestinationFile> getDestinationFiles()
++ int getFileId()
++ boolean isStarted()
++ Date getStartDate()
++ ServiceDriver getDriver()
++ ServiceTruck getTruck()
++ Point getSource()
++ int getStartingWeight()
++ Zone getFrom()
++ Zone getTo()
+}
+class Backend.ServiceLayer.ServiceObjects.Transport.ServiceDriver {
+- LicenseService license
++ String toString()
++ LicenseService getLicense()
+}
+class Backend.Logic.Controllers.Stock.CategoryController {
+- CategoriesDAO categoriesDAO
+- int category_id
++ Discount addDiscount(List<String>,double,Date,Date)
++ Category addCategory(String,List<String>)
++ List<Category> getMainCategories()
++ Category getMainCategory(String)
++ Category getCategory(List<String>)
++ List<Category> getSubCategories(List<String>)
++ boolean isCategoryExist(String)
+}
+class Backend.Logic.LogicObjects.Product.Purchase {
+- String productId
+- double costPrice
+- double salePrice
+- double discount
+- int quantity
+- String supplier
+- Date purchaseTime
++ String getProductId()
++ Date getPurchaseTime()
++ double getCostPrice()
++ double getSalePrice()
++ double getDiscount()
++ int getQuantity()
++ String getSupplier()
+}
+class Backend.Logic.Controllers.Stock.ReportBuilder {
+- ProductController productController
+- CategoryController categoryController
++ List<ProductInfo> getDamagedProductsInfo()
++ List<ProductInfo> getStockProductsInfo(List<List<String>>)
++ Report buildStockReport(List<List<String>>)
++ Report buildMissingProductsReport()
++ Report buildDamagedReport()
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierNotConsistentScheduleDAO {
+}
+class Backend.DataAccess.DAOs.TransportDAOs.TransportFileDAO {
+- DriverDAO driverDAO
+- TruckDAO truckDAO
+- PointDAO pointDAO
++ List<TransportFile> uploadInprogress()
++ List<TransportFile> uploadDone()
++ List<TransportFile> getRowsFromDBOldT(String)
++ int getCurrentId()
+}
+class Backend.Logic.Vehicles.VehicleController {
+- TruckDAO truckDAO
+- FreeTruck freeTruck
++ void initialize(FreeTruck)
++ List<Truck> availableTruck(Date,Date)
++ void addTruck(int,String,int,int,License)
++ void removeTruck(int)
++ Truck getFreeTruck()
++ Truck getTruck(int)
+}
+class PresentationLayer.EmployeTransportFrontend.CLI {
++ {static} boolean isShutDown()
++ {static} void shutdownWait()
++ {static} void screenPerJob(Job,TransportEmployeeService,Scanner)
++ {static} void loginScreen(TransportEmployeeService,Scanner)
+}
+enum PresentationLayer.EmployeTransportFrontend.Job {
++  TRANSPORT_MANAGER
++  ORDER_MAN
++  DRIVER
++  HR_MANAGER
++  BASIC_EMPLOYEE
++  STOCK_KEEPER
++  SUPPLIER_MANAGER
++  STORE_MANAGER
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Transport.TransportManagerService {
+- TransportManagerController transportManagerController
++ Response<List<OrderTransportService>> showAllTransportRequests()
++ Response<ServiceTransportFile> getTransportFile(int)
++ Response<OrderTransportService> getOrderTransport(int)
++ Response<List<String>> getAllPointInfo()
++ Response<List<ServiceTransportFile>> showInProgressTransports()
++ Response<?> addTruck(int,String,int,int,LicenseService)
++ Response insertBranch(String,String,String,String)
++ Response insertSupplier(String,String,String,String)
++ Response deleteTruck(int)
++ Response<List<ServiceTruck>> showAllAvailableTrucks(Date,Date)
++ Response createTransportFile(Date,Date,int,int,String,String,String,List<Integer>,List<Date>)
++ Response createTransportFile(Date,Date,int,String,String,String,List<Integer>,List<Date>)
++ Response<List<ServiceDriver>> showAllAvailableDrivers(Date,Date)
++ Response removeItems(String,List<Integer>)
++ Response changeTruck(int,int)
++ Response changeDriver(int,int)
++ Response cancelTransport(int)
++ Response<?> addComment(String,int)
++ Response removeDestination(int,String)
++ Response<ServiceDestinationFile> getDestinationFile(String)
++ Response<List<ServiceTransportFile>> showOldTransports()
++ Response<OrderTransportService> getRequestsByPriority()
++ Response<List<OrderTransportService>> getRequestsByZone(String,String)
++ Response addConstraints(Date,ShiftTime,int)
++ Response deleteConstraints(Date,ShiftTime,int)
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Supplier.SupplierManagerService {
+}
+class Backend.Logic.LogicObjects.Jobs.BasicEmployee {
+- String branchAddress
++ String getBranchAddress()
++ void setBranchAddress(String)
+}
+class Backend.Logic.LogicObjects.Product.Item {
+- int id
+- String product_number
+- Location location
+- Date expired
+- boolean isFlaw
+- ItemsDAO itemsDAO
+- LocationsDAO locationsDAO
++ String getProduct_number()
++ int getId()
++ Location getLocation()
++ void setLocation(Location)
++ Date getExpired()
++ void setExpired(Date)
++ boolean isExpired()
++ boolean isFlaw()
++ void setFlaw(boolean)
+}
+class Backend.ServiceLayer.ServiceObjects.Product.SProduct {
+- String productNumber
+- String name
+- String manufacturer
+- double price
+- List<String> category
+- List<SItem> items
+- List<SPurchase> purchases
+- List<SDiscount> discounts
++ List<SPurchase> getPurchases()
++ List<SDiscount> getDiscounts()
++ String getProductNumber()
++ String getName()
++ String getManufacturer()
++ double getPrice()
++ List<String> getCategory()
++ List<SItem> getItems()
++ String toString()
+}
+interface Backend.ServiceLayer.Facades.Callbacks.CallbackAddOrderByDemand {
++ void order(String,String,int)
+}
+class Backend.DataAccess.DTOs.StockDTOS.PurchasesDTO {
+- long product_ID
+- double cost_price
+- double sale_price
+- double discount
+- long quantity
+- String supplier
+- String purchase_time
++ {static} Field[] getFields()
++ {static} PK getPK(long,String)
++ long getProductId()
++ double getCostPrice()
++ double getSalePrice()
++ double getDiscount()
++ long getQuantity()
++ String getSupplier()
++ String getPurchaseTime()
++ Object[] getValues()
+}
+class Backend.Logic.Points.Branch {
+}
+class Backend.DataAccess.DTOs.StockDTOS.ProductsDTO {
+- long id
+- String name
+- String manufacturer
+- double price
+- long category_ID
+- long demand_per_day
+- long item_id_runner
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getId()
++ void setId(long)
++ String getName()
++ void setName(String)
++ String getManufacturer()
++ void setManufacturer(String)
++ double getPrice()
++ void setPrice(double)
++ long getCategoryId()
++ void setCategoryId(long)
++ long getDemandPerDay()
++ void setDemandPerDay(long)
++ long getItemIdRunner()
++ void setItemIdRunner(long)
++ Object[] getValues()
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierConsistentScheduleDTO {
+- String cn
+- long day
++ {static} Field[] getFields()
++ {static} PK getPK(String,long)
++ String getCn()
++ long getDay()
++ Object[] getValues()
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.BillOfQuantitiyDAO {
++ BillOfQuantities getFullBillOfQuantities(String,String)
++ void insertBillOfQuantity(BillOfQuantities)
+}
+class Backend.DataAccess.DAOs.EmployeeDAOS.PlacementDAO {
+~ SimpleDateFormat formatter
++ List<Placement> getRowsFromDB_(String,String,String)
++ List<Placement> getPlace(Branch,Date,String)
+}
+class Backend.Logic.LogicObjects.Employee.EmploymentConditions {
+- int employeeId
+- double salary
+- String socialBenefits
+- ConstrainsDAO constrainsDAO
++ void setSalary(double)
++ void setNewSocialBenefits(String)
++ void addSocialBenefits(String)
++ void addConstraints(Date,ShiftTime)
++ void deleteConstraints(Date,ShiftTime)
++ String getStrDate(Date)
++ void clearConstraints()
++ double getSalary()
++ String getSocialBenefits()
++ String toStringConstrains(int)
++ boolean isAvailable(int,String,ShiftTime)
++ int getEmployeeId()
+}
+class Backend.Logic.LogicObjects.Employee.EmploymentConditions.Task {
++ void run()
+}
+interface Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.SupplierAgreementFunctionality {
+~ SupplierController supplierController
+~ Product2SuppliersLinker product2SuppliersLinker
+~ Result<Void> defineSupplyingNotConsistent(String,int)
+~ Result<Void> defineSupplyingDays(String,LinkedList<Integer>)
+~ Result<Void> addSupplyingDay(String,int)
+~ Result<Void> removeSupplyingDay(String,int)
+~ Result<ServiceSupplierSchedule> getSupplierSupplyingDays(String)
+~ Result<Void> addSupplierProduct(String,String,String,double)
+~ Result<Void> removeSupplierProduct(String,String)
+~ Result<Void> editSupplierProductCatalogNum(String,String,String)
+~ Result<Void> editSupplierProductName(String,String,String)
+~ Result<Void> editSupplierProductPrice(String,String,double)
+~ Result<Void> addSupplierProductBillOfQuantitiesRange(String,String,int,double)
+~ Result<Void> removeSupplierProductBillOfQuantitiesRange(String,String,int)
+~ Result<LinkedList<ServiceSupplierProduct>> getSupplierProducts(String)
+~ Result<String> getSupplierProductCatalogNum(String,String)
+~ Result<Double> getSupplierProductPrice(String,String)
+~ Result<Double> getSupplierProductPriceForQuantity(String,String,int)
+~ Result<LinkedList<String>> getSuppliersCnOfProduct(String)
+~ Result<ServiceBillOfQuantities> getBillOfQuantityForAProduct(String,String)
+~ Result<ServiceSupplierProduct> getAllSupplierProductInfo(String,String)
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierAgreementDTO {
+- String cn
+- String isConsistent
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getCn()
++ String getIsConsistent()
++ Object[] getValues()
+}
+class Obj.Pair {
+- T key
+- U value
++ T getKey()
++ U getValue()
+}
+class Backend.ServiceLayer.ServiceObjects.Report.SStockProductInfo {
+- int quantity
+- int storeQuantity
+- int warehouseQuantity
+- List<SLocation> locations
+- boolean isMissing
++ int getQuantity()
++ int getStoreQuantity()
++ int getWarehouseQuantity()
++ List<SLocation> getLocations()
++ String toString()
+}
+class Backend.Logic.LogicObjects.Report.Report {
+- Date date
+- List<ProductInfo> products
++ Date getDate()
++ List<ProductInfo> getProducts()
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierEmptyScheduleDTO {
+- String cn
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getCn()
++ Object[] getValues()
+}
+interface Backend.Logic.Controllers.Callbacks.AvailableDrivers {
++ List<Driver> getAvailableDrivers()
+}
+interface Backend.Logic.LogicObjects.Supplier.SupplierSchedule {
+~ boolean isScheduleConsistent()
+~ LinkedList<Integer> getDaysList()
+~ int getDaysTillNextShipment()
+~ boolean isShippingInDay(int)
+~ int getTimeForTillNextNextShipment()
+~ boolean isSupplierWithEmptySchedule()
+}
+class Backend.Logic.Vehicles.Truck {
+- int truckId
+- String model
+- int basicWeight
+- int maxWeight
+- boolean isBusy
+- List<InformObserver> usedBy
+- License license
+- TruckDAO dao
++ void notifyAllObservers()
++ boolean checkIfCanNotify()
++ void addObserver(InformObserver)
++ void removeObserver(InformObserver)
++ void removeTruck()
++ int getId()
++ String getModel()
++ int getBasicWeight()
++ int getMaxWeight()
++ boolean isBusy()
++ void setBusy(boolean)
++ License getLicense()
+}
+class Backend.DataAccess.DAOs.EmployeeDAOS.EmploymentConditionsDAO {
+}
+class Backend.ServiceLayer.Result.ErrorResult {
++ boolean errorOccurred()
+}
+class Backend.ServiceLayer.Result.ValueResult {
+}
+class Obj.Parser {
+- {static} SimpleDateFormat simpleDateFormat
+- {static} HashMap<String,Integer> getMonthNumber
+- {static} Scanner scanner
++ {static} Date getDate(String)
++ {static} String getStrInput(String)
++ {static} int getIntInput(String)
++ {static} double getDoubleInput(String)
++ {static} Date getDateInput(String)
++ {static} void deleteAllData()
++ {static} void printResult(Result<T>,Function<T,String>)
++ {static} List<T> getListInput(Supplier<T>)
++ {static} String printList(List<T>)
++ {static} Field[] getFields(String[],Class<T>)
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Transport.DriverService {
+- DriverController driverController
++ Response weightTruck(int)
++ Response updateLicense(String)
++ Response setStarted(int)
++ Response finishDestinationFile(String)
++ Response<String> showDetails()
++ Response addConstraints(Date,ShiftTime)
++ Response addConstraints(Date,ShiftTime,int)
++ Response deleteConstraints(Date,ShiftTime,int)
+}
+class Backend.Logic.LogicObjects.Supplier.Supplier {
+- SupplierCard supplierCard
+- Agreement agreement
+- LinkedList<Order> orders
+- SupplierCardDAO scDAO
+- SupplierAgreementDAO saDAO
+- SupplierOrdersDAO soDAO
++ Agreement getAgreement()
++ LinkedList<Integer> getSupplyingDays()
++ SupplierCard getSupplierCard()
++ void addContact(String,String,String)
++ void removeContact(String)
++ void editContactName(String,String)
++ void editContactEmail(String,String)
++ void editContactNumber(String,String)
++ void editBankAccountNum(String)
++ void editPaymentMethod(String)
++ void editPaymentFrequency(String)
++ void editSupplierName(String)
++ void editSupplierCn(String)
++ void defineSupplyingNotConsist(int)
++ void defineSupplyingDays(LinkedList<Integer>)
++ void addSupplyingDay(int)
++ void removeSupplyingDay(int)
++ void addProduct(String,String,Double)
++ void removeProduct(String)
++ void editProductCatalogNum(String,String)
++ void editProductName(String,String)
++ void editProductPrice(String,double)
++ void addProductBillOfQuantitiesRange(String,int,double)
++ void removeProductBillOfQuantitiesRange(String,int)
++ double getProductBillOfQuantitiesDiscount(String,int)
++ LinkedList<SupplierProduct> getProducts()
++ String getProductCatalogNum(String)
++ double getProductPrice(String)
++ double getProductPriceForQuantity(String,int)
++ Order addOrder(String,String,LinkedList<Pair<String,Integer>>)
++ Contact getSupplierContact(String)
++ String getCn()
++ String getBankAccountNum()
++ String getPaymentFrequency()
++ String getPaymentMethod()
++ String getSupplierName()
++ void editDiscountForRange(String,int,double)
++ BillOfQuantities getProductBillOfQuantities(String)
++ LinkedList<Order> getOrders()
++ LinkedList<Contact> getContactList()
++ boolean isSupplierConsistent()
++ int getDaysTillNextShipment()
++ SupplierProduct getProduct(String)
++ boolean isSupplyingInDay(int)
++ int getNextNextShipmentTime()
++ boolean isSupplierScheduleEmpty()
++ void removeData()
++ void insertData()
+}
+class Backend.ServiceLayer.ServiceObjects.Report.SReport {
+- Date date
+- List<SProductInfo> products
++ Date getDate()
++ List<SProductInfo> getProducts()
++ String toString()
++ String flawedToString()
++ String expiredToString()
+}
+class Backend.ServiceLayer.Result.Response {
+- T value
+- String error
+- boolean gotError
++ boolean isGotError()
++ String getError()
++ void setValue(T)
++ T getValue()
+}
+class Backend.Logic.LogicObjects.Transport.OrderTransport {
+- List<TransportItem> transportItemList
+- int orderTransportId
+- Point origin
+- Point destination
+- Date creationDate
+- OrderTransportDAO orderDao
+- TransportItemDAO itemDAO
++ void saveItems()
++ Point getOrigin()
++ void setOrigin(Point)
++ List<TransportItem> getTransportItemList()
++ void delete()
++ int getOrderTransportId()
++ void setOrderTransportId(int)
++ void specialSetOrderTransportId(int)
++ Point getDestination()
++ void setDestination(Point)
++ Date getCreationDate()
+}
+abstract class Backend.ServiceLayer.Result.AbstractResult {
+- T value
+- String error
++ T getValue()
++ String getError()
++ boolean errorOccurred()
+}
+class Backend.Logic.LogicObjects.Supplier.Agreement {
+- String cn
+- HashMap<String,SupplierProduct> products
+- SupplierSchedule schedule
+- LinkedList<String> productCatalogNums
+- CallbackCheckProductForShortage checkProductForShortage
+- SupplierProductsDAO supplierProductsDAO
+- SupplierConsistentScheduleDAO supplierConsistentScheduleDAO
+- SupplierNotConsistentScheduleDAO supplierNotConsistentScheduleDAO
+- SupplierEmptyScheduleDAO supplierEmptyScheduleDAO
++ String getCn()
++ LinkedList<Integer> getSupplyingDays()
++ boolean isScheduleConsistent()
++ void defineSupplyingNotConsistent(int)
++ void defineSupplyingDays(LinkedList<Integer>)
++ void addSupplyingDay(int)
++ void removeSupplyingDay(int)
++ int getDaysTillNextShipment()
++ void addProduct(String,String,double)
++ SupplierProduct getProduct(String)
++ void removeProduct(String)
++ void editProductCatalogNum(String,String)
++ void editProductName(String,String)
++ void editProductPrice(String,double)
++ void editCn(String)
++ void addProductBillOfQuantitiesRange(String,int,double)
++ void removeProductBillOfQuantitiesRange(String,int)
++ double getProductBillOfQuantitiesDiscount(String,int)
++ LinkedList<SupplierProduct> getProducts()
++ String getProductCatalogNum(String)
++ double getProductPrice(String)
++ double getProductPriceForQuantity(String,int)
++ void editProductDiscountForQuantity(String,int,double)
++ BillOfQuantities getProductBillOfQuantities(String)
++ boolean isSupplyingInDay(int)
++ int getTimeForTillNextNextShipment()
++ boolean isSupplierScheduleEmpty()
++ void insertData()
++ void removeData()
+}
+abstract class Backend.Logic.Controllers.TransportEmployee.Controller {
+- EmployeeDAO employeeDAO
++ {abstract}void addConstraint(Date,ShiftTime)
++ {abstract}void deleteConstraint(Date,ShiftTime)
++ {abstract}void changePassword(String,String)
+}
+class Backend.Logic.LogicObjects.Report.ProductInfo {
+- String productNumber
+- String name
+- String manufacturer
++ String getProductNumber()
++ String getName()
++ String getManufacturer()
+}
+class Backend.Logic.Controllers.TransportEmployee.OrderTransportController {
+~ int currentOrderTransportId
+- TransportMap transportMap
+- OrderTransportDAO orderDao
++ AddExist getAddExistLambda()
++ void addExistTransportRequest(OrderTransport)
++ void addTransportRequest(String,String,List<TransportItem>)
++ void addTransportRequestT(String,String,List<TransportItem>)
++ void deleteTransportRequest(int)
++ List<OrderTransport> showAllTransportRequests()
++ List<OrderTransport> getTransportRequests(List<Integer>)
++ OrderTransport getRequestsByPriority()
++ List<OrderTransport> getRequestsByZone(Zone,Zone)
++ OrderTransport getOrderTransport(int)
+}
+class Backend.DataAccess.DAOs.StockDAOs.LocationsDAO {
+}
+class Backend.ServiceLayer.ServiceObjects.Report.SCategory {
+- String name
+- List<String> subCategories
+- List<String> parent
+- List<SDiscount> discounts
++ String getName()
++ List<String> getSubCategories()
++ List<String> getParent()
++ List<SDiscount> getDiscounts()
++ String toString()
+}
+class Backend.Logic.LogicObjects.Employee.BankAccount {
+- int employeeId
+- int bankNumber
+- int accountNumber
+- int bankBranch
++ void setBankNumber(int)
++ void setAccountNumber(int)
++ void setBankBranch(int)
++ String toString()
++ int getBankNumber()
++ int getAccountNumber()
++ int getBankBranch()
++ int getEmployeeId()
+}
+class Backend.ServiceLayer.ServiceObjects.Supplier.ServiceProductOrder {
+- String catalogNum
+- String name
+- int quantity
+- double totalPriceWithoutDiscount
+- double discount
+- double finalPrice
++ String getCatalogNum()
++ String getName()
++ double getFinalPrice()
++ double getTotalDiscount()
++ double getTotalPriceWithoutDiscount()
++ int getQuantity()
++ String toString()
+}
+interface Backend.Logic.LogicLambdas.InformObservable {
++ void notifyAllObservers()
++ boolean checkIfCanNotify()
++ void addObserver(InformObserver)
++ void removeObserver(InformObserver)
+}
+class Backend.DataAccess.DAOs.TransportDAOs.TransportManagerDAO {
+- EmployeeDAO employeeDAO
+- BankAccountDAO bankAccountDAO
+- EmploymentConditionsDAO employmentConditionsDAO
++ void deleteRow(TransportManager)
++ void insert(TransportManager)
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.ProductOrderDAO {
+}
+class Backend.Logic.Controllers.TransportEmployee.OrderManController {
+- OrderTransportController orderTransportController
+- OrderMan orderManLoggedIn
+- TransportMap transportMap
+- OrderManDAO orderManDAO
++ List<OrderMan> getList()
++ void register(int,String,String,Date,boolean,BankAccount,EmploymentConditions)
++ void removeOrderMan(int)
++ List<String> getAllPointInfoOrderMan()
++ void login(int,String)
++ OrderMan getOrderManLoggedIn()
++ boolean isLoggedIn()
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ void changePassword(String,String)
++ void createTransportRequest(String,String,List<TransportItem>)
++ void deleteTransportRequest(int)
++ OrderTransport getOrderTransport(int)
+}
+class Backend.DataAccess.DTOs.TransportDTOS.DriverDTO {
+- long employeeId
+- String license
+- String lastUpdateDistance
+- long distance
+- EmployeeDTO employeeDTO
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getEmployeeId()
++ String getLastUpdateDistance()
++ String getLicense()
++ String getFirstName()
++ String getLastName()
++ String getPassword()
++ String getStartingDate()
++ long getIsShiftManager()
++ Object[] getValues()
++ long getDistance()
+}
+class Backend.DataAccess.DAOs.TransportDAOs.DestinationFileDAO {
+- PointDAO pointDAO
++ List<DestinationFile> getDestinationFile(int)
+}
+interface Backend.Logic.LogicLambdas.InformObserver {
++ void act(Object)
++ boolean canAct(Object)
+}
+interface Backend.ServiceLayer.Facades.Callbacks.CallbackCheckProductForShortage {
++ void check(String)
+}
+class Backend.Logic.LogicObjects.Supplier.Contact {
+- String cn
+- String name
+- String email
+- String phoneNumber
+- String emailRegex
+- String phoneRegex
++ String getName()
++ String getEmail()
++ String getPhoneNumber()
++ void setEmail(String)
++ void setName(String)
++ void setPhoneNumber(String)
++ void setCn(String)
++ String getCn()
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierContactsDAO {
+}
+class Callbacks.CallbackWrapper {
+- {static} CallbackWrapper instance
+- CallbackNotifyCLI callbackNotifyCLI
+- CallbackGetTimeIdealSupplier callbackGetTimeIdealSupplier
+- CallbackGetProductQuantity callbackGetProductQuantity
+- CallbackGetDemandOfProduct callbackGetDemandOfProduct
+- CallbackCheckProductForShortage callbackCheckProductForShortage
+- CallbackAddOrderByDemand callbackAddOrderByDemand
++ {static} CallbackWrapper getInstance()
++ CallbackNotifyCLI getCallbackNotifyCLI()
++ void setCallbackNotifyCLI(CallbackNotifyCLI)
++ CallbackGetTimeIdealSupplier getCallbackGetTimeIdealSupplier()
++ void setCallbackGetTimeIdealSupplier(CallbackGetTimeIdealSupplier)
++ CallbackGetProductQuantity getCallbackGetProductQuantity()
++ void setCallbackGetProductQuantity(CallbackGetProductQuantity)
++ CallbackGetDemandOfProduct getCallbackGetDemandOfProduct()
++ void setCallbackGetDemandOfProduct(CallbackGetDemandOfProduct)
++ CallbackCheckProductForShortage getCallbackCheckProductForShortage()
++ void setCallbackCheckProductForShortage(CallbackCheckProductForShortage)
++ CallbackAddOrderByDemand getCallbackAddOrderByDemand()
++ void setCallbackAddOrderByDemand(CallbackAddOrderByDemand)
+}
+class Backend.ServiceLayer.ServiceObjects.Product.SPurchase {
+- double costPrice
+- double salePrice
+- double discount
+- int quantity
+- String supplier
+- Date purchaseTime
++ double getCostPrice()
++ double getSalePrice()
++ double getDiscount()
++ int getQuantity()
++ String getSupplier()
++ Date getPurchaseTime()
++ String toString()
+}
+class Backend.ServiceLayer.ServiceObjects.Supplier.ServiceSupplierSchedule {
+- LinkedList<Integer> daysList
++ String toString()
+}
+class Backend.Logic.Exceptions.Transport.TransportException {
+}
+class Backend.Logic.LogicObjects.Supplier.SupplierCard {
+- String supplierName
+- String cn
+- String bankAccountNum
+- String paymentMethod
+- String paymentFrequency
+- HashMap<String,Contact> contactsNumToContact
+- LinkedList<String> paymentMethods
+- LinkedList<String> paymentFrequencies
+- SupplierContactsDAO contactsDAO
++ void putNewContact(String,String,String)
++ Contact getContact(String)
++ void addContact(String,String,String)
++ void removeContact(String)
++ void editContactName(String,String)
++ void editContactEmail(String,String)
++ void editContactNum(String,String)
++ String getPaymentFrequency()
++ void setPaymentFrequency(String)
++ String getPaymentMethod()
++ void setPaymentMethod(String)
++ String getCn()
++ void setCn(String)
++ String getBankAccountNum()
++ void setBankAccountNum(String)
++ void setSupplierName(String)
++ String getSupplierName()
++ LinkedList<Contact> getContactList()
++ void insertData()
++ void removeData()
+}
+interface Backend.Logic.LogicLambdas.AddExist {
++ void addExist(OrderTransport)
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.AssignmentDTO {
+- String date
+- String shiftTime
+- String branch
+- String job
+- long capacity
+- long quantity
++ Object[] getValues()
++ {static} Field[] getFields()
++ {static} PK getPK(String,String,String,String)
++ long getCapacity()
++ String getDate()
++ String getShiftTime()
++ String getBranch()
++ String getJob()
++ long getQuantity()
+}
+class Backend.Logic.Controllers.Stock.DiscountHolder {
+- DiscountsDAO discountsDAO
++ void add(Discount)
++ List<Discount> getDiscounts()
++ Discount getMaxActiveDiscount()
+}
+class Backend.DataAccess.DTOs.TransportDTOS.OrderManDTO {
+- long orderManId
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getOrderManId()
++ Object[] getValues()
+}
+class Backend.Logic.Controllers.Supplier.SupplierController {
+- HashMap<String,Supplier> suppliers
+- CallbackGetProductQuantity getProductQuantity
+- CallbackCheckProductForShortage checkProductForShortage
+- CallbackGetDemandOfProduct getDemandOfProduct
+- SupplierDAO supplierDAO
++ List<Supplier> getConsistentSuppliers()
++ boolean isIdealSupplier(Supplier,SupplierProduct)
++ void checkSuppliersForDeliveryDay()
++ void addSupplier(String,String,String,String,String,String,String,String,CallbackCheckProductForShortage)
++ void removeSupplier(String)
++ void addSupplierContact(String,String,String,String)
++ void removeSupplierContact(String,String)
++ void editSupplierContactName(String,String,String)
++ void editSupplierContactNumber(String,String,String)
++ void editSupplierContactEmail(String,String,String)
++ void editSupplierCn(String,String)
++ void editSupplierBankAccountNum(String,String)
++ void editSupplierPaymentMethod(String,String)
++ void editSupplierPaymentFrequency(String,String)
++ void defineSupplyingNotConsistent(String,int)
++ void defineSupplyingDays(String,LinkedList<Integer>)
++ void addSupplyingDay(String,int)
++ void removeSupplyingDay(String,int)
++ void addSupplierProduct(String,String,String,double)
++ void removeSupplierProduct(String,String)
++ void editSupplierProductCatalogNum(String,String,String)
++ void editSupplierProductName(String,String,String)
++ void editSupplierProductPrice(String,String,double)
++ void addSupplierProductBillOfQuantitiesRange(String,String,int,double)
++ void removeSupplierProductBillOfQuantitiesRange(String,String,int)
++ LinkedList<SupplierProduct> getSupplierProducts(String)
++ String getSupplierProductCatalogNum(String,String)
++ double getSupplierProductPrice(String,String)
++ double getSupplierProductPriceForQuantity(String,String,int)
++ Order addOrder(String,String,String,LinkedList<Pair<String,Integer>>)
++ void editDiscountForRangeForSupplier(String,String,int,double)
++ LinkedList<Order> getSupplierOrders(String)
++ BillOfQuantities getSupplierProductBillOfQuantities(String,String)
++ LinkedList<Integer> getSupplyingDays(String)
++ String getSupplierBankAccountNumber(String)
++ String getSupplierName(String)
++ String getSupplierPaymentMethod(String)
++ String getSupplierPaymentFrequency(String)
++ Contact getSupplierContact(String,String)
++ LinkedList<Contact> getSupplierContactList(String)
++ void editSupplierName(String,String)
++ int getQuantityOfProduct(Supplier,int,int)
++ Pair<String,Double> getBestDealForProductByDemand(String,int,LinkedList<String>)
++ Pair<String,Double> getBestDealForProduct(String,int,LinkedList<String>)
++ Pair<String,Double> getBestDealForProductForDay(int,String,int,LinkedList<String>)
++ Order addOrder_bestPrice(String,String,int,LinkedList<String>)
++ SupplierCard getAllSupplierInfo(String)
++ SupplierProduct getAllSupplierProductInfo(String,String)
++ Integer getTimeTillNextShipmentIdealSupplierShipment(String,int,LinkedList<String>)
++ void loadAllSuppliersFromDB()
++ void loadOrderId()
+}
+class Backend.DataAccess.DAOs.EmployeeDAOS.AssignmentDAO {
+~ SimpleDateFormat formatter
+}
+interface PresentationLayer.EmployeTransportFrontend.ServiceFunction {
+~ Response apply(ServiceFunctionHelp)
+}
+enum Backend.Logic.Points.Zone {
++  HA_NEGEV
++  HA_DAROM
++  HA_MERKAZ
++  HA_SHFELA
++  AYALON
++  DAN
++  YARKON
++  HA_SHARON
++  SHOMRON
++  MENASHE
++  ASHER
++  HEVRON
++  KINERT
++  HA_ZAFON
++  HA_GALIL
+- int numVal
++ int getNumVal()
+}
+class Backend.Logic.LogicObjects.Transport.TransportItem {
+- int itemId
+- String manufacture
+- int quantity
+- int orderTransportId
+- String destinationFileId
+- TransportItemDAO itemDAO
++ int getItemId()
++ void setItemId(int)
++ String getManufacture()
++ void setManufacture(String)
++ int getQuantity()
++ void setQuantity(int)
++ int getOrderTransportId()
++ void setOrderTransportId(int)
++ String getDestinationFileId()
++ void setDestinationFileId(String)
+}
+class Backend.Logic.LogicObjects.Report.StockProductInfo {
+- int quantity
+- int storeQuantity
+- int warehouseQuantity
+- List<Location> locations
+- boolean isMissing
++ boolean isMissing()
++ int getQuantity()
++ int getStoreQuantity()
++ int getWarehouseQuantity()
++ List<Location> getLocations()
+}
+class PresentationLayer.JobsCLI.functionalCLI.InventoryManagement {
+- StockFunctionality service
+- Scanner scanner
++ void addProduct()
++ void run()
++ void printInvetoryManagement()
+}
+class Backend.DataAccess.DTOs.TransportDTOS.PointDTO {
+- String address
+- String phone
+- String contactName
+- String zone
+- String tag
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getAddress()
++ String getPhone()
++ String getContactName()
++ String getZone()
++ Object[] getValues()
++ String getTag()
++ String toString()
+}
+class Backend.Logic.Controllers.TransportEmployee.DriverController {
+- TransportBoard transportBoard
+- Driver loggedInDriver
+- DriverDAO driverDAO
++ List<Driver> getList()
++ void setTransportBoard(TransportBoard)
++ AvailableDrivers getAllDriversLambda()
++ void setStarted(int)
++ void register(int,String,String,Date,boolean,BankAccount,EmploymentConditions)
++ void login(int,String)
++ boolean isLoggedIn()
++ void removeDriver(int)
++ void weightTruck(int)
++ void updateLicense(String)
++ void finishDestinationFile(String)
++ String showDetails()
++ Driver getDriver(int)
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ void changePassword(String,String)
+}
+class PresentationLayer.JobsCLI.functionalCLI.SupplierOrders {
+- SupplierOrdersFunctionality service
+- Scanner scanner
++ void run()
+}
+class Backend.Logic.LogicObjects.Transport.TransportFile {
+- List<DestinationFile> destinationFiles
+- int fileId
+- boolean started
+- Date startDate
+- Date endDate
+- Driver driver
+- int driverId
+- Truck truck
+- Point source
+- int startingWeight
+- Zone from
+- String comment
+- Zone to
+- boolean isFinish
+- AddExist addExistLambda
+- IsStoreKeeperInShift isStoreKeeperInShift
+- DestinationFileDAO destinationFileDAO
+- TransportFileDAO transportFileDAO
++ {static} TransportFile getInstance(int,Date,Date,Driver,Truck,Point,int,Zone,Zone,List<OrderTransport>,AddExist,List<Date>,IsStoreKeeperInShift)
++ List<DestinationFile> getDestinationFiles()
++ String toString()
++ boolean isFinish()
++ void finishDest(String)
++ void addComment(String)
++ void delete()
++ void deleteT()
++ void removeItems(String,List<Pair<Integer,Integer>>)
++ void addDestinationFile(DestinationFile)
++ void removeDestinationFile(String)
++ void removeDestination(String)
++ void changeTruck(Truck)
++ void changeDriver(Driver)
++ DestinationFile getDestinationFile(String)
++ void act(Object)
++ boolean canAct(Object)
++ int getFileId()
++ boolean isStarted()
++ void setStarted(boolean,int)
++ Date getStartDate()
++ Date getEndDate()
++ void setStartDate(Date)
++ Driver getDriver()
++ void setDriver(Driver)
++ Truck getTruck()
++ void setTruck(Truck)
++ Point getSource()
++ void setSource(Point)
++ int getStartingWeight()
++ void setStartingWeight(int)
++ Zone getFrom()
++ void setFrom(Zone)
++ Zone getTo()
++ void setTo(Zone)
++ String getComment()
++ void setFinish(boolean)
++ int getDriverId()
+}
+class Backend.Logic.Controllers.TransportEmployee.BasicEmployeeController {
+- JobDAO jobDao
+- EmployeeDAO employeeDAO
+- BasicEmployee loggedInBasicEmployee
++ boolean isLoggedIn()
++ void login(int,String)
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ void changePassword(String,String)
+}
+class Backend.DataAccess.DAOs.TransportDAOs.TransportItemDAO {
++ List<TransportItem> getItemForOrderTransport(int)
++ List<TransportItem> getItemForOrderDestinationFile(String)
++ void update(TransportItem,String,int,int)
+}
+class Backend.Logic.LogicObjects.Product.Discount {
+- String id
+- Integer category_id
+- String product_id
+- double discount
+- Date dateFrom
+- Date dateTo
++ String getId()
++ Integer getCategory_id()
++ String getProduct_id()
++ boolean isActive()
++ double getDiscount()
++ Date getDateFrom()
++ Date getDateTo()
+}
+interface PresentationLayer.EmployeTransportFrontend.ServiceFunctionHelp {
+~ Response apply(String[])
+}
+class Backend.DataAccess.DTOs.EmployeeDTOS.ConstraintsDTO {
+- long employeeId
+- String date
+- String shiftTime
++ {static} Field[] getFields()
++ {static} PK getPK(long,String,String)
++ long getEmployeeId()
++ void setEmployeeId(long)
++ String getDate()
++ void setDate(String)
++ String getShiftTime()
++ void setShiftTime(String)
++ Object[] getValues()
+}
+interface Backend.ServiceLayer.Facades.Callbacks.CallbackGetDemandOfProduct {
++ int get(String)
+}
+class Backend.DataAccess.DTOs.StockDTOS.ItemsDTO {
+- long id
+- long product_ID
+- String is_flaw
+- String expired
++ {static} Field[] getFields()
++ {static} PK getPK(long,long)
++ Object[] getValues()
++ long getId()
++ long getProductId()
++ String getIsFlaw()
++ String getExpired()
+}
+class Backend.Logic.LogicObjects.Product.Product {
+- CallbackNotifyCLI notifyCLI
+- CallbackGetTimeIdealSupplier getTimeIdealSupplier
+- CallbackAddOrderByDemand orderByDemand
+- String productNumber
+- String name
+- String manufacturer
+- double price
+- Category category
+- int demandPerDay
+- DiscountHolder discountHolder
+- int itemID
+- int discountID
+- ProductsDAO productsDAO
+- PurchasesDAO purchasesDAO
+- ItemsDAO itemsDAO
+- DiscountsDAO discountsDAO
++ CallbackGetTimeIdealSupplier getGetTimeIdealSupplier()
++ void setGetTimeIdealSupplier(CallbackGetTimeIdealSupplier)
++ CallbackAddOrderByDemand getOrderByDemand()
++ void setOrderByDemand(CallbackAddOrderByDemand)
++ CallbackNotifyCLI getNotifyCLI()
++ void setNotifyCLI(CallbackNotifyCLI)
++ int getItemID()
++ DiscountHolder getDiscountHolder()
++ List<Purchase> getPurchases()
++ String getName()
++ void setName(String)
++ String getManufacturer()
++ void setManufacturer(String)
++ double getPrice()
++ void setPrice(double)
++ Category getCategory()
++ List<Item> getItems()
++ void setCategory(Category)
++ Item addItem(String,Location.StoreOrStorage,int,Date)
++ Item removeItem(String,Location.StoreOrStorage,int)
++ Purchase addPurchase(double,double,double,int,String,Date)
++ Item getItem(String,Location.StoreOrStorage,int)
++ Item getNotFlawedItem(String,Location.StoreOrStorage,int)
++ List<Item> getFlawedItems()
++ String getProductNumber()
++ int getDemandPerDay()
++ void setDemand(int)
++ void checkMissing()
++ boolean isMissing()
++ List<Location> getLocations()
++ List<Location> getLocationsOfFlawedItems()
++ List<Location> getLocationOfExpiredItems()
++ List<Location> getLocationOfDamagedItems()
++ int getQuantity()
++ int getWarehouseQuantity()
++ int getStoreQuantity()
++ int getExpiredQuantity()
++ int getFlawedQuantity()
++ int getDamagedQuantity()
++ Discount addDiscount(double,Date,Date)
+}
+class Test.WorkersTest {
+~ UserController userController
+~ HRController hrController
+~ TransportManagerController transportManagerController
+~ DriverController driverController
+~ OrderManController orderManController
+~ BasicEmployeeController basicEmployeeController
+~ StockKeeperController stockKeeperController
+~ StoreManagerController storeManagerController
+~ SupplierManagerController supplierManagerController
+~ String response
+~ BankAccountDAO bankAccountDAO
+~ int DAYTIME
+~ Date date1
+~ Date date2
+~ SimpleDateFormat formatter
+~ int day
+~ PlacementDAO placementDAO
+~ ShiftDAO shiftDAO
+~ ConstrainsDAO constrainsDAO
+~ AssignmentDAO assignmentDAO
+- String manager
+- String orderMan
+- String driver
+- String hrManager
+- String basicEmployee
++ void setUp()
++ void test_AddSchedule()
++ void Test_updateShiftManager()
++ void Test_addNewShift()
++ void Test_addShiftPosition()
++ void Test_login()
++ void Test_logout()
++ void Test_addNewEmployee()
++ void Test_removeEmployee()
++ void Test_updateBankNumber()
++ void Test_updateAccountNumber()
+}
+class Backend.Logic.Controllers.TransportEmployee.SupplierManagerController {
+- StoreManager loggedInStoreManager
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ void changePassword(String,String)
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.BillOfQuantitiyDTO {
+- String cn
+- String productName
+- double discount
+- long startRange
++ {static} Field[] getFields()
++ {static} PK getPK(String,String,long)
++ String getCn()
++ String getProductName()
++ double getDiscount()
++ long getStartRange()
++ Object[] getValues()
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierOrdersDAO {
++ int getNextOrderId()
+}
+class Backend.Logic.Points.TransportMap {
+- PointDAO pointDAO
++ List<String> getAllPoints()
++ Point getPoint(String)
++ void insertPoint(Point)
+}
+class Backend.DataAccess.DAOs.TransportDAOs.OrderTransportDAO {
+- PointDAO pointDAO
++ int getCurrentId()
++ List<OrderTransport> getOrderTransportById(List<Integer>)
++ OrderTransport getOldestOrder()
++ List<OrderTransport> getReqByZone(String,String)
+}
+interface Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.ReportsFunctionality {
+~ ReportBuilder reportBuilder
+~ Result<SReport> getStockReport(List<List<String>>)
+~ Result<SReport> getDamageReport()
+}
+abstract class Backend.Logic.Points.Point {
+- String address
+- String phone
+- ShiftController shiftController
+- String contactName
+- Zone zone
++ String getAddress()
++ void setAddress(String)
++ String getPhone()
++ void setPhone(String)
++ String getContactName()
++ void setContactName(String)
++ Zone getZone()
++ void setZone(Zone)
++ String toString()
+}
+class Backend.ServiceLayer.ServiceObjects.Product.SLocation {
+- String branch
+- String place
+- int shelf
++ String getBranch()
++ String getPlace()
++ int getShelf()
++ String toString()
+}
+class PresentationLayer.JobsCLI.CLISupplierManager {
+- Scanner scanner
+- SupplierManagerService service
+- boolean loggedIn
++ void start()
+}
+class Backend.DataAccess.DAOs.TransportDAOs.TruckDAO {
++ List<Backend.Logic.Vehicles.Truck> getFreeTrucks()
+}
+interface Backend.ServiceLayer.Facades.Callbacks.CallbackGetProductQuantity {
++ int get(String)
+}
+class Backend.ServiceLayer.Services.TransportEmployeeService {
+- DriverService driverService
+- UserService userService
+- TransportManagerService transportManagerService
+- OrderService orderService
+- HRService hrService
++ Response login(int,String,String)
++ Response logout(int)
++ Response createTransportRequest(String,String,List<TransportItemService>)
++ Response<List<String>> getAllPointInfoOrderMan()
++ Response<List<ServiceTransportFile>> showInProgressTransports()
++ Response<ServiceTransportFile> getTransportFile(int)
++ Response<OrderTransportService> getOrderTransport(int)
++ Response<List<String>> getAllPointInfo()
++ Response deleteTransportRequest(int)
++ Response<List<OrderTransportService>> showAllTransportRequests()
++ Response addTruck(int,String,int,int,LicenseService)
++ Response deleteTruck(int)
++ Response<List<ServiceTruck>> showAllAvailableTrucks(Date,Date)
++ Response insertBranch(String,String,String,String)
++ Response insertSupplier(String,String,String,String)
++ Response createTransportFile(Date,Date,int,int,String,String,String,List<Integer>,List<Date>)
++ Response createTransportFile(Date,Date,int,String,String,String,List<Integer>,List<Date>)
++ Response<List<ServiceDriver>> showAvailableDrivers(Date,Date)
++ Response updateLicense(String)
++ Response removeItems(String,List<Integer>)
++ Response changeTruck(int,int)
++ Response changeDriver(int,int)
++ Response cancelTransport(int)
++ Response removeDestination(int,String)
++ Response<?> addComment(String,int)
++ Response<ServiceDestinationFile> getDestinationFile(String)
++ Response<List<ServiceTransportFile>> showOldTransports()
++ Response<OrderTransportService> getRequestsByPriority()
++ Response<List<OrderTransportService>> getRequestsByZone(String,String)
++ Response weightTruck(int)
++ Response finishDestinationFile(String)
++ Response setStarted(int)
++ Response<Boolean> isLoggedIn(int,String)
++ Response<OrderTransportService> getRequestOrderTransport(int)
++ Response<LicenseService[]> showAvailableLicenses()
++ Response<String> showDetails()
++ Response addNewJob(String)
++ Response addNewEmployee(String,String,Date,int,String,boolean,int,int,int,double,String,String)
++ Response removeEmployee(int)
++ Response updateBankNumber(int,int)
++ Response updateAccountNumber(int,int)
++ Response updateBankBranch(int,int)
++ Response<HashMap<Integer,String>> showForEachEmployeeHisJob()
++ Response<LinkedList<String>> showEmployees()
++ Response updateSalary(int,double)
++ Response addSocialBenefits(int,String)
++ Response addNewSocialBenefits(int,String)
++ Response updateFirstName(int,String)
++ Response updateLastName(int,String)
++ Response changePassword(String,String)
++ Response updateIsShiftManager(int,boolean)
++ Response<String> getEmployeeConstrains(int)
++ Response<String> getShiftPlacements(Date,ShiftTime,String)
++ Response addScheduling(ShiftTime,Date,String,int,String)
++ Response removeScheduling(ShiftTime,Date,String,int)
++ Response updateShiftManager(ShiftTime,Date,String,int)
++ Response addNewShift(ShiftTime,Date,String,int)
++ Response setPosition(ShiftTime,Date,String,String,int)
++ Response addShiftPosition(ShiftTime,Date,String,String,int)
++ Response removeShiftPosition(ShiftTime,Date,String,String)
++ Response<String> getNumberOfShiftsStatistics(String)
++ Response<String> getNumberOfEveningShiftsStatistics(String)
++ Response<String> getNumberOfMorningShiftsStatistics(String)
++ Response<String> getHistory()
++ Response addConstraint(Date,ShiftTime)
++ Response deleteConstraint(Date,ShiftTime)
+}
+enum Backend.Logic.LogicObjects.Employee.ShiftTime {
++  Morning
++  Evening
+}
+class Test.NewTestsHW2 {
+- StockSupplyService stockSupplyService
+- SupplierController supplierController
+- {static} SimpleDateFormat simpleDateFormat
++ void setup()
++ void getBestDealForProductByDemand_noSuppliers()
++ void getBestDealForProductByDemand_multipleSuppliers()
++ void checkCannotSupplyingTimeForNotDefinedProduct()
++ void checkGetSupplyingTimeForDefinedProductNotConsistent()
++ void checkGetSupplyingTimeForDefinedProductConsistent()
++ void checkCannotGetSupplyingTimeForNotDefinedProductConsistent()
++ void checkSupplyingTimeForConsistentSupplierTodayCase()
++ void checkGetSupplyingTimeForDefinedProductNotConsistent2Suppliers()
++ void checkGetSupplyingTimeForDefinedProductConsistent2Suppliers()
++ void checkGetSupplyingTimeForDefinedProductConsistent2SuppliersSamePrice()
++ void testRemoveItem()
++ {static} void tearDown()
+}
+class Backend.Logic.LogicObjects.Report.DamagedProductInfo {
+- List<Location> locations
+- int quantity
+- int expiredQuantity
+- int flawedQuantity
++ List<Location> getLocations()
++ int getQuantity()
++ int getExpiredQuantity()
++ int getFlawedQuantity()
+}
+interface Backend.ServiceLayer.Result.Result {
++ boolean errorOccurred()
++ T getValue()
++ String getError()
+}
+class Test.ProductTest {
+- Product product1
+- SimpleDateFormat simpleDateFormat
++ void setUp()
++ void tearDown()
++ void getDemand()
++ void setDemand()
++ void getFlawedItems()
++ void getLocationsOfFlawedItems()
++ void getLocationOfExpiredItems()
++ void getLocationOfDamagedItems()
++ void getWarehouseQuantity()
++ void getStoreQuantity()
++ void getExpiredQuantity()
++ void getFlawedQuantity()
++ void getDamagedQuantity()
+}
+class Backend.Logic.Controllers.TransportEmployee.HRController {
+- HrManager loggedInHrManager
+- DriverController driverController
+- TransportManagerController transportManagerController
+- OrderManController orderManController
+- ShiftController shiftController
+- EmployeeController employeeController
++ void initialize(DriverController,TransportManagerController,OrderManController)
++ void addConstraints(Date,ShiftTime)
++ void login(int,String)
++ boolean isLoggedIn()
++ void addScheduling(ShiftTime,Date,String,Employee,String)
++ void removeScheduling(ShiftTime,Date,String,Employee)
++ void updateShiftManager(ShiftTime,Date,String,Employee)
++ void addNewShift(ShiftTime,Date,String,Employee)
++ void addShiftPosition(ShiftTime,Date,String,String,int)
++ void removeShiftPosition(ShiftTime,Date,String,String)
++ void setPosition(ShiftTime,Date,String,String,int)
++ String getHistory()
++ String getShiftPlacements(Date,ShiftTime,String)
++ String getNumberOfShiftsStatistics(String)
++ String getNumberOfMorningShiftsStatistics(String)
++ String getNumberOfEveningShiftsStatistics(String)
++ void addConstraint(Date,ShiftTime)
++ void deleteConstraint(Date,ShiftTime)
++ void changePassword(String,String)
++ void addNewJob(String)
++ void addNewEmployee(String,String,Date,int,String,boolean,int,int,int,double,String,String)
++ void removeEmployee(int)
++ void updateBankNumber(int,int)
++ void updateAccountNumber(int,int)
++ void updateBankBranch(int,int)
++ HashMap<Integer,String> showForEachEmployeeHisJob()
++ void addNewSocialBenefits(int,String)
++ void addSocialBenefits(int,String)
++ void updateSalary(int,double)
++ LinkedList<String> showEmployees()
++ String getEmployeeConstrains(int)
++ void updateIsShiftManager(int,boolean)
++ void updateLastName(int,String)
++ ShiftController getShiftController()
++ void updateFirstName(int,String)
++ Employee getEmployee(int)
++ boolean isJobExists(String)
+}
+class Backend.DataAccess.DTOs.TransportDTOS.TransportManagerDTO {
+- long employeeId
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getEmployeeId()
++ Object[] getValues()
+}
+enum Backend.Logic.Vehicles.License {
++  A
++  B
++  C
++  D
++  NONE
+}
+interface Callbacks.PlaceOrderCallback {
++ void call(String,int)
+}
+class Backend.DataAccess.DAOs.TransportDAOs.PointDAO {
+}
+class Backend.Logic.LogicObjects.Employee.Shift {
+- AssignmentDAO assignmentDAO
+- JobDAO jobDAO
+- PlacementDAO placementDAO
+- ShiftDAO shiftDAO
+- Date shiftDate
+- ShiftTime shiftTime
+- String branch
+- Employee shiftManager
++ void addBasics()
++ void addPlacement(String,Employee)
++ void setShiftManager(Employee)
++ ShiftTime getShiftTime()
++ Date getShiftDate()
++ void deletePlacementOfEmployee(Employee)
++ void addShiftPosition(String,int)
++ void removeShiftPosition(String)
++ void setPosition(String,int)
++ void increasePositions(String,int,Assingment)
++ void reducePositions(String,int,Assingment)
++ Employee getShiftManager()
++ void ValidateRemoveScheduling(Employee)
++ boolean isPlacedEmployee(Employee)
++ String getStrDate()
++ String getBranch()
+}
+class Backend.DataAccess.DTOs.StockDTOS.CategoriesDTO {
+- long id
+- long parent_ID
+- String name
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getId()
++ long getParentId()
++ String getName()
++ void setName(String)
++ Object[] getValues()
+}
+class Backend.ServiceLayer.ServiceObjects.Report.SProductInfo {
+- String productNumber
+- String name
+- String manufacturer
++ String getProductNumber()
++ String getName()
++ String getManufacturer()
++ String toString()
+}
+class Backend.DataAccess.DAOs.TransportDAOs.OrderManDAO {
+- EmployeeDAO employeeDAO
+- BankAccountDAO bankAccountDAO
+- EmploymentConditionsDAO employmentConditions
++ void insert(OrderMan)
++ void deleteRow(OrderMan)
+}
+class Backend.ServiceLayer.ServiceObjects.Supplier.ServiceSupplierProduct {
+- String name
+- String catalogNum
+- double priceFor1Unit
++ String getName()
++ String getCatalogNum()
++ double getPriceFor1Unit()
++ String toString()
+}
+class Backend.ServiceLayer.ServiceObjects.Transport.ServiceDestinationFile {
+- String id
+- Point destination
+- Point source
+- boolean isDone
+- List<TransportItemService> transportItems
++ String getId()
++ Point getDestination()
++ Point getSource()
++ boolean isDone()
++ List<TransportItemService> getTransportItems()
++ String toString()
++ String toStringWithoutItems()
+}
+class Backend.DataAccess.DAOs.EmployeeDAOS.JobDAO {
+}
+interface Backend.DataAccess.DTOs.PrimaryKeys.PrimaryKey {
+~ Object[] getValue()
+~ boolean equals(Object)
+~ int hashCode()
+~ String primaryKeyToString()
+}
+class Test.IntegrationTest {
+- {static} int transportId
+- {static} int orderId
+- {static} Starter starter
+- {static} int trackId
++ {static} void setUp()
++ void upload()
++ void reset()
++ void addEmployeeAndLogin()
++ void checkIfDriverInShiftException()
++ void checkIfStoreKeeperInShiftException()
++ void tryDeleteActiveDriver()
++ void changeDriverName()
++ void changeTransportManagerBK()
++ void changeOrderManSalary()
++ void createTransportFileCalculated()
++ void newManagerAddTruck()
++ void changeTransportManagerCondition()
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierEmptyScheduleDAO {
+}
+class Backend.Logic.LogicObjects.Jobs.StockKeeper {
+}
+class Backend.DataAccess.DTOs.StockDTOS.DiscountsDTO {
+- String id
+- Long category_ID
+- Long product_ID
+- double discount
+- String date_from
+- String date_to
++ {static} Field[] getFields()
++ {static} PK getPK(String)
++ String getId()
++ Long getCategoryId()
++ Long getProductId()
++ double getDiscount()
++ String getDateFrom()
++ String getDateTo()
++ Object[] getValues()
+}
+class Backend.Logic.LogicObjects.Employee.Placement {
+- Date date
+- ShiftTime shiftTime
+- String branch
+- int employeeId
+- String job
++ Date getDate()
++ void setDate(Date)
++ ShiftTime getShiftTime()
++ String getJob()
++ void setShiftTime(ShiftTime)
++ int getEmployeeId()
++ void setEmployeeId(int)
++ String getBranch()
++ void setBranch(String)
++ String getStrDate()
+}
+class Backend.Logic.LogicObjects.Transport.TransportBoard {
+- int transportId
+- OrderTransportController orderTransportController
+- List<TransportFile> inProgress
+- List<TransportFile> done
+- AvailableDrivers availableDrivers
+- DriversInShift driversInShift
+- IsStoreKeeperInShift isStoreKeeperInShift
+- TransportMap transportMap
+- TransportFileDAO transportFileDAO
++ FreeTruck getFreeTruck()
++ void createTransportFile(Date,Date,Truck,int,String,Zone,Zone,List<Integer>,List<Date>)
++ void createTransportFile(Date,Date,Truck,String,Zone,Zone,List<Integer>,List<Date>)
++ void startTransport(int,int)
++ void removeTransportFile(int)
++ void removeTransportFileT(int)
++ void removeItems(String,List<Pair<Integer,Integer>>)
++ void removeDestination(int,String)
++ void FinishDest(String,int)
++ void insertBranch(String,String,String,Zone)
++ void insertSupplier(String,String,String,Zone)
++ TransportFile getActiveMission(int)
++ void changeTruck(Truck,int)
++ void addComment(String,int)
++ void changeDriver(int,int)
++ OrderTransport getOrderTransport(int)
++ TransportFile getTransportFile(int)
++ TransportMap getTransportMap()
++ List<Driver> getAvailableDrivers(Date,Date)
++ List<OrderTransport> showAllTransportRequests()
++ OrderTransport getRequestsByPriority()
++ List<OrderTransport> getRequestsByZone(Zone,Zone)
++ DestinationFile getDestinationFile(String)
++ List<TransportFile> showInprogressTransports()
++ List<TransportFile> showOldTransports()
+}
+class Backend.DataAccess.DAOs.SupplierDAOs.SupplierProductsDAO {
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.ProductOrderDTO {
+- long orderId
+- String catalogNum
+- String productName
+- long quantity
+- double totalPriceWithoutDiscount
+- double discount
+- double finalPrice
++ {static} Field[] getFields()
++ {static} PK getPK(long,String)
++ double getDiscount()
++ long getOrderId()
++ String getCatalogNum()
++ String getProductName()
++ long getQuantity()
++ double getTotalPriceWithoutDiscount()
++ double getFinalPrice()
++ Object[] getValues()
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Transport.OrderService {
+- OrderManController orderManController
++ Response createTransportRequest(String,String,List<TransportItemService>)
++ Response<List<String>> getAllPointInfoOrderMan()
++ Response deleteTransportRequest(int)
++ Response<OrderTransportService> getRequestOrderTransport(int)
+}
+class Backend.DataAccess.DTOs.SupplierDTOS.SupplierContactsDTO {
+- String cn
+- String contactPhoneNumber
+- String contactName
+- String contactEmail
++ {static} Field[] getFields()
++ {static} PK getPK(String,String)
++ String getCn()
++ String getContactPhoneNumber()
++ String getContactName()
++ String getContactEmail()
++ Object[] getValues()
+}
+interface Backend.Logic.LogicLambdas.GetList {
++ List<T> getList()
+}
+class Backend.DataAccess.DTOs.TransportDTOS.TruckDTO {
+- long truckId
+- String model
+- long basicWeight
+- long maxWeight
+- String license
++ {static} Field[] getFields()
++ {static} PK getPK(long)
++ long getTruckId()
++ String getModel()
++ long getBasicWeight()
++ long getMaxWeight()
++ String getLicense()
++ Object[] getValues()
+}
+class Backend.Logic.LogicObjects.Supplier.SupplierProduct {
+- String cn
+- String name
+- String catalogNum
+- double price
+- BillOfQuantities billOfQuantities
+- BillOfQuantitiyDAO billOfQuantitiyDAO
++ void setCatalogNum(String)
++ void setName(String)
++ void setPrice(double)
++ void addBillOfQuantitiesRange(int,double)
++ void removeBillOfQuantitiesRange(int)
++ double getBillOfQuantitiesDiscount(int)
++ String getName()
++ String getCatalogNum()
++ double getPrice()
++ double getProductPriceForQuantity(int)
++ void editPriceForQuantities(int,double)
++ BillOfQuantities getBillOfQuantities()
++ String getCn()
++ void removeData()
++ void editCn(String)
+}
+enum Backend.ServiceLayer.ServiceObjects.Transport.LicenseService {
++  A
++  B
++  C
++  D
++  NONE
+}
+class Backend.Logic.LogicObjects.Supplier.NotConsistentSupplierSchedule {
+- int shipmentTime
+- String cn
++ String getCn()
++ boolean isScheduleConsistent()
++ LinkedList<Integer> getDaysList()
++ int getDaysTillNextShipment()
++ void setShipmentTime(int)
++ boolean isShippingInDay(int)
++ int getTimeForTillNextNextShipment()
++ boolean isSupplierWithEmptySchedule()
++ int getShipmentTime()
+}
+class Backend.ServiceLayer.Facades.ServicePerJob.Employees.UserService {
+- UserController userController
++ Response login(int,String,String)
++ Response logout(int)
++ Response<Boolean> isLoggedIn(int,String)
++ Response changePassword(String,String)
++ Response addConstraint(Date,ShiftTime)
++ Response deleteConstraint(Date,ShiftTime)
+}
+interface Backend.ServiceLayer.Facades.Callbacks.CallbackGetTimeIdealSupplier {
++ int getTime(String,int)
+}
+class PresentationLayer.JobsCLI.CLIStockKeeper {
+- Scanner scanner
+- StockKeeperService service
+- boolean loggedIn
++ void start()
+}
+class Backend.ServiceLayer.ServiceObjects.Product.SItem {
+- int id
+- SLocation location
+- Date expired
+- boolean isFlaw
++ int getId()
++ SLocation getLocation()
++ Date getExpired()
++ boolean isFlaw()
++ String toString()
+}
+class Backend.DataAccess.DAOs.StockDAOs.DiscountsDAO {
+}
+class Backend.DataAccess.DAOs.EmployeeDAOS.ConstrainsDAO {
+~ SimpleDateFormat formatter
++ List<Constraint> getRowsFromDB_(String,String)
+}
+
+
+Backend.Logic.LogicObjects.Jobs.Employee <|-- Backend.Logic.LogicObjects.Jobs.StoreManager
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.DriverDAO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierOrdersDTO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.EmployeeDTOS.JobsDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierAgreementDAO
+Backend.Logic.LogicLambdas.InformObservable <|.. Backend.Logic.LogicObjects.Jobs.Driver
+Backend.Logic.LogicObjects.Jobs.Employee <|-- Backend.Logic.LogicObjects.Jobs.Driver
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.EmployeeDAOS.ShiftDAO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.EmployeeDTOS.PlacementDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.StockDAOs.CategoriesDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.EmployeeDAOS.EmployeeDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.StockDAOs.ProductsDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.StockDAOs.ItemsDAO
+Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.SupplierCardFunctionality <|.. Backend.ServiceLayer.Facades.ServicePerJob.Stock.StoreManagerService
+Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.ReportsFunctionality <|.. Backend.ServiceLayer.Facades.ServicePerJob.Stock.StoreManagerService
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.OrderTransportDTO
+Backend.Logic.LogicLambdas.GetList <|.. Backend.Logic.Controllers.TransportEmployee.TransportManagerController
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.TransportManagerController
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.StockDTOS.ProductsDTO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.StockDTOS.LocationsDTO
+Backend.Logic.Controllers.TransportEmployee.ShiftController +.. Backend.Logic.Controllers.TransportEmployee.ShiftController.Task
+Backend.Logic.Controllers.TransportEmployee.TimerTask <|-- Backend.Logic.Controllers.TransportEmployee.ShiftController.Task
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.EmployeeDTOS.EmployeeDTO
+Backend.DataAccess.Exceptions.RuntimeException <|-- Backend.DataAccess.Exceptions.DbException
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierProductsDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.EmployeeDAOS.BankAccountDAO
+Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.StockFunctionality <|.. Backend.ServiceLayer.Facades.ServicePerJob.Stock.StockKeeperService
+Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.SupplierOrdersFunctionality <|.. Backend.ServiceLayer.Facades.ServicePerJob.Stock.StockKeeperService
+Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.SupplierCardFunctionality <|.. Backend.ServiceLayer.Facades.ServicePerJob.Stock.StockKeeperService
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.EmployeeDTOS.BankAccountDTO
+Backend.Logic.Points.Point <|-- Backend.Logic.Points.Supplier
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.TransportFileDTO
+Backend.DataAccess.DTOs.PrimaryKeys.PrimaryKey <|.. Backend.DataAccess.DTOs.PrimaryKeys.PK
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierDTO
+Backend.ServiceLayer.ServiceObjects.Report.SProductInfo <|-- Backend.ServiceLayer.ServiceObjects.Report.SDamagedProductInfo
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierDAO
+Backend.Logic.LogicObjects.Jobs.Employee <|-- Backend.Logic.LogicObjects.Jobs.SupplierManager
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.StockKeeperController
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierCardDAO
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.UserController
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.DestinationFileDTO
+Backend.Logic.LogicObjects.Supplier.SupplierSchedule <|.. Backend.Logic.LogicObjects.Supplier.ConsistentSupplierSchedule
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.StockDAOs.PurchasesDAO
+Backend.Logic.LogicObjects.Jobs.Employee <|-- Backend.Logic.LogicObjects.Jobs.OrderMan
+Backend.Logic.LogicObjects.Jobs.Employee <|-- Backend.Logic.LogicObjects.Jobs.HrManager
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.TransportItemDTO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierNotConsistentScheduleDTO
+java.util.Comparator <|.. Backend.Logic.LogicObjects.Product.SortByDatePurchase
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.EmployeeDTOS.EmploymentConditionsDTO
+Backend.Logic.LogicObjects.Jobs.Employee <|-- Backend.Logic.LogicObjects.Jobs.TransportManager
+Backend.Logic.LogicObjects.Supplier.SupplierSchedule <|.. Backend.Logic.LogicObjects.Supplier.EmptySchedule
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierConsistentScheduleDAO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierCardDTO
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.StoreManagerController
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.EmployeeDTOS.ShiftDTO
+Backend.ServiceLayer.ServiceObjects.Transport.ServiceEmployee <|-- Backend.ServiceLayer.ServiceObjects.Transport.ServiceDriver
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierNotConsistentScheduleDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.TransportFileDAO
+Backend.ServiceLayer.Facades.ServicePerJob.Employees.BasicEmployeeService <|-- Backend.ServiceLayer.Facades.ServicePerJob.Transport.TransportManagerService
+Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.SupplierCardFunctionality <|.. Backend.ServiceLayer.Facades.ServicePerJob.Supplier.SupplierManagerService
+Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.AddNRemoveSupplier <|.. Backend.ServiceLayer.Facades.ServicePerJob.Supplier.SupplierManagerService
+Backend.ServiceLayer.Facades.ServicePerJob.Fanctionalities.SupplierAgreementFunctionality <|.. Backend.ServiceLayer.Facades.ServicePerJob.Supplier.SupplierManagerService
+Backend.Logic.LogicObjects.Jobs.Employee <|-- Backend.Logic.LogicObjects.Jobs.BasicEmployee
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.StockDTOS.PurchasesDTO
+Backend.Logic.Points.Point <|-- Backend.Logic.Points.Branch
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.StockDTOS.ProductsDTO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierConsistentScheduleDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.BillOfQuantitiyDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.EmployeeDAOS.PlacementDAO
+Backend.Logic.LogicObjects.Employee.EmploymentConditions +.. Backend.Logic.LogicObjects.Employee.EmploymentConditions.Task
+Backend.Logic.LogicObjects.Employee.TimerTask <|-- Backend.Logic.LogicObjects.Employee.EmploymentConditions.Task
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierAgreementDTO
+Backend.ServiceLayer.ServiceObjects.Report.SProductInfo <|-- Backend.ServiceLayer.ServiceObjects.Report.SStockProductInfo
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierEmptyScheduleDTO
+Backend.Logic.LogicLambdas.InformObservable <|.. Backend.Logic.Vehicles.Truck
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.EmployeeDAOS.EmploymentConditionsDAO
+Backend.ServiceLayer.Result.AbstractResult <|-- Backend.ServiceLayer.Result.ErrorResult
+Backend.ServiceLayer.Result.AbstractResult <|-- Backend.ServiceLayer.Result.ValueResult
+Backend.ServiceLayer.Result.Result <|.. Backend.ServiceLayer.Result.AbstractResult
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.StockDAOs.LocationsDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.TransportManagerDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.ProductOrderDAO
+Backend.Logic.LogicLambdas.GetList <|.. Backend.Logic.Controllers.TransportEmployee.OrderManController
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.OrderManController
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.DriverDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.DestinationFileDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierContactsDAO
+Backend.Logic.Exceptions.Transport.RuntimeException <|-- Backend.Logic.Exceptions.Transport.TransportException
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.EmployeeDTOS.AssignmentDTO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.OrderManDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.EmployeeDAOS.AssignmentDAO
+Backend.Logic.LogicObjects.Report.ProductInfo <|-- Backend.Logic.LogicObjects.Report.StockProductInfo
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.PointDTO
+Backend.Logic.LogicLambdas.GetList <|.. Backend.Logic.Controllers.TransportEmployee.DriverController
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.DriverController
+Backend.Logic.LogicLambdas.InformObserver <|.. Backend.Logic.LogicObjects.Transport.TransportFile
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.BasicEmployeeController
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.TransportItemDAO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.EmployeeDTOS.ConstraintsDTO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.StockDTOS.ItemsDTO
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.SupplierManagerController
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.BillOfQuantitiyDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierOrdersDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.OrderTransportDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.TruckDAO
+Backend.ServiceLayer.Services.TransportEmployeeServiceAPI <|.. Backend.ServiceLayer.Services.TransportEmployeeService
+Backend.Logic.LogicObjects.Report.ProductInfo <|-- Backend.Logic.LogicObjects.Report.DamagedProductInfo
+Backend.Logic.Controllers.TransportEmployee.Controller <|-- Backend.Logic.Controllers.TransportEmployee.HRController
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.TransportManagerDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.PointDAO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.StockDTOS.CategoriesDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.TransportDAOs.OrderManDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.EmployeeDAOS.JobDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierEmptyScheduleDAO
+Backend.Logic.LogicObjects.Jobs.Employee <|-- Backend.Logic.LogicObjects.Jobs.StockKeeper
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.StockDTOS.DiscountsDTO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.SupplierDAOs.SupplierProductsDAO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.ProductOrderDTO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.SupplierDTOS.SupplierContactsDTO
+Backend.DataAccess.DTOs.DTO <|-- Backend.DataAccess.DTOs.TransportDTOS.TruckDTO
+Backend.Logic.LogicObjects.Supplier.SupplierSchedule <|.. Backend.Logic.LogicObjects.Supplier.NotConsistentSupplierSchedule
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.StockDAOs.DiscountsDAO
+Backend.DataAccess.DAOs.DAO <|-- Backend.DataAccess.DAOs.EmployeeDAOS.ConstrainsDAO
+@enduml

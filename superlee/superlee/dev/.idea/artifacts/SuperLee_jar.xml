@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SuperLee:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SuperLee_jar</output-path>
+    <root id="archive" name="SuperLee.jar">
+      <element id="module-output" name="SuperLee" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/sqlite-jdbc-3.36.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/UmlGenerator.jar" path-in-jar="/" />
+      <element id="module-test-output" name="SuperLee" />
+      <element id="module-source" name="SuperLee" />
+    </root>
+  </artifact>
+</component>

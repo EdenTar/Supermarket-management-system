@@ -1,0 +1,9 @@
+@startuml
+skinparam classAttributeIconSize 0
+class PresentationLayer.CLI {
+}
+class PresentationLayer.CLIStock {
+}
+class PresentationLayer.CLISupplier {
+}
+@enduml
